@@ -18,7 +18,7 @@ import Footer from "./components/Footer";
 class App extends Component {
   state = {
     // authorize and admin will need to be changed to false
-    authorized: true,
+    authorized: false,
     admin: true
   };
 
@@ -32,7 +32,7 @@ class App extends Component {
       .then(res => {
         if (res.data.message) {
           // this authorize will need to be changed to false
-          this.setState({ authorized: true, admin: true });
+          this.setState({ authorized: false, admin: true });
         } else {
           console.log(res.data.admin)
           this.setState({ authorized: true, admin: res.data.admin });
@@ -41,7 +41,7 @@ class App extends Component {
       .catch(err => {
         console.log(err);
         // this authorize and admin will need to be changed to false
-        this.setState({ authorized: true, admin: true });
+        this.setState({ authorized: false, admin: true });
       });
   };
 

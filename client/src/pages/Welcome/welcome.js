@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import {BrowserRouter as Router, Route} from "react-router-dom";
-import Nav from "../../components/Nav";
-
 import Container from "../../components/Container";
 import Title from "../../components/Title";
 import Row from "../../components/Row";
@@ -11,6 +8,36 @@ import API from "../../utils/API";
 import "./welcome.css";
 
 class Welcome extends Component {
+  state = {
+    name: "",
+    position: "",
+    department: "",
+    startDate: ""
+  };
+
+  componentDidMount() {
+    console.log("welcome page -- retrieving info")
+    this.getInfo()
+  }
+
+  getInfo = () => {
+    API.isAuthorized()
+      .then(res => {
+        if (res.data.message) {
+          // this authorize will need to be changed to false
+          this.setState({ authorized: false, admin: true });
+        } else {
+          console.log(res.data)
+          this.setState({ authorized: true, admin: res.data.admin, name: res.data.email});
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        // this authorize and admin will need to be changed to false
+        this.setState({ authorized: false, admin: true });
+      });
+  }
+
   render() {
     return (
       <div className="container">
@@ -29,7 +56,7 @@ class Welcome extends Component {
             
             </Col>
             <Col size="sm-7">
-              <p>Welcome, XXXXX</p>
+              <p>Welcome, {this.state.name}</p>
               <p>This month, we're featuring *insert department here*</p>
               <p>To submit a submit a recognition, click here.</p>
               <p>To submit a nomination for a colleague, click here.</p>
