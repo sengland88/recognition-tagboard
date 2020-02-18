@@ -1,18 +1,124 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
+import API from "./utils/API";
+
+//pages 
+import Public from "./pages/Public/public.js";
+import Login from "./pages/Login/login.js";
+import Register from "./pages/Register/register.js";
+import Welcome from "./pages/Welcome/welcome.js";
+import Tagboard from "./pages/Tagboard/tagboard.js";
+import Search from "./pages/Search/search.js";
+import Admin from "./pages/Admin/admin.js";
+
+// components
+import Nav from "./components/Nav";
+import Footer from "./components/Footer";
 
 class App extends Component {
+  state = {
+    // authorize and admin will need to be changed to false
+    authorized: true,
+    admin: true
+  };
+
+  componentDidMount() {
+    console.log("yo this works")
+    this.isAuthorized();
+  }
+
+  isAuthorized = () => {
+    API.isAuthorized()
+      .then(res => {
+        if (res.data.message) {
+          // this authorize will need to be changed to false
+          this.setState({ authorized: true, admin: true });
+        } else {
+          console.log(res.data.admin)
+          this.setState({ authorized: true, admin: res.data.admin });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        // this authorize and admin will need to be changed to false
+        this.setState({ authorized: true, admin: true });
+      });
+  };
+
+  logout = () => {
+    API.logout()
+      .then(res => {
+        console.log("logged out");
+        this.isAuthorized();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+      <Nav />
+      <Router>
+
+          <Switch>
+
+            <Route exact path="/login">
+              {this.state.authorized ? (
+                <Redirect to="/" />
+              ) : (
+                <Login isAuthorized={this.isAuthorized} />
+              )}
+            </Route>
+
+            <Route exact path="/register">
+              {this.state.authorized ? (
+                <Redirect to="/" />
+              ) : (
+                <Register isAuthorized={this.isAuthorized} />
+              )}
+            </Route>
+
+            <Route exact path="/welcome">
+              {this.state.authorized ? (
+                <Welcome />
+                ) : (
+                <Redirect to="/login" />
+              )}
+            </Route>
+
+            <Route exact path="/tagboard">
+              {this.state.authorized ? (
+                <Tagboard />
+                ) : (
+                <Redirect to="/login" />
+              )}
+            </Route>
+
+            <Route exact path="/search">
+              {this.state.authorized ? (
+                <Search />
+                ) : (
+                <Redirect to="/login" />
+              )}
+            </Route>
+
+            <Route exact path="/admin">
+              {this.state.admin ? (
+                <Admin />
+                ) : (
+                <Redirect to="/login" />
+              )}
+            </Route>
+
+            <Route exact path="/">
+              <Public />
+            </Route>
+            
+          </Switch>
+      </Router>
+      <Footer/>
       </div>
     );
   }
