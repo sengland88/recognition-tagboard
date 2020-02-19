@@ -25,16 +25,16 @@ class Welcome extends Component {
       .then(res => {
         if (res.data.message) {
           // this authorize will need to be changed to false
-          this.setState({ authorized: false, admin: true });
+          this.setState({ authorized: false, admin: false });
         } else {
           console.log(res.data)
-          this.setState({ authorized: true, admin: res.data.admin, name: res.data.email});
+          this.setState({ authorized: true, admin: res.data.admin});
         }
       })
       .catch(err => {
         console.log(err);
         // this authorize and admin will need to be changed to false
-        this.setState({ authorized: false, admin: true });
+        this.setState({ authorized: false, admin: false });
       });
   }
 
@@ -52,11 +52,12 @@ class Welcome extends Component {
             </div>
             <p>Employees' name</p>
             <p>Employees' Department</p>
-            <p>Employees' Start Date</p>          
+            <p>Employees' Start Date</p>
+            <Link to="/update">Update</Link>        
             
             </Col>
             <Col size="sm-7">
-              <p>Welcome, {this.state.name}</p>
+              <p>Welcome, XXXXX</p>
               <p>This month, we're featuring *insert department here*</p>
               <p>To submit a submit a recognition, click here.</p>
               <p>To submit a nomination for a colleague, click here.</p>
@@ -65,10 +66,12 @@ class Welcome extends Component {
           </Row>
           <Row>
             <Col size="sm">
-              <Link to="/welcome">Welcome</Link>
-              <Link to="/tagboard">Tagboard</Link>
-              <Link to="/search">Search</Link>
-              <Link to="/admin">Admin</Link>
+            <Link to="/welcome">Welcome</Link>
+            <Link to="/tagboard">Tagboard</Link>
+            <Link to="/search">Search</Link>
+            <Link to="/admin">Admin</Link>
+            <Link to="/update">Update</Link>
+            <Link to="/comment">Comment</Link>
             </Col>
           </Row>
         </Container>

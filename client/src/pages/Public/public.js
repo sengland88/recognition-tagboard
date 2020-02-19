@@ -25,6 +25,8 @@ class Public extends Component {
             <Link to="/tagboard">Tagboard</Link>
             <Link to="/search">Search</Link>
             <Link to="/admin">Admin</Link>
+            <Link to="/update">Update</Link>
+            <Link to="/comment">Comment</Link>
           </Row>
         </Container>
 

@@ -10,7 +10,7 @@ router.post("/api/register", function(req, res) {
   //Do password validation here before attempting to register user, such as checking for password length, capital letters, special characters, etc.
 
   db.User.register(
-    new db.User({ username: req.body.username, email: req.body.email }),
+    new db.User({ username: req.body.username, email: req.body.email, fullName: req.body.fullName }),
     req.body.password,
     function(err, user) {
       if (err) {

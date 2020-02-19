@@ -6,6 +6,7 @@ import "./register.css";
 
 class Register extends Component {
   state = {
+    fullName: "",
     username: "",
     email: "",
     password: "",
@@ -58,6 +59,7 @@ class Register extends Component {
 
   register = event => {
     event.preventDefault();
+    console.log(this.state.fullName)
     API.register({
       username: this.state.username.toLowerCase(),
       email: this.state.email,
@@ -157,6 +159,7 @@ class Register extends Component {
             <Link to="/tagboard">Tagboard</Link>
             <Link to="/search">Search</Link>
             <Link to="/admin">Admin</Link>
+            <Link to="/update">Update</Link>
           </FormGroup>
         </form>
       </div>

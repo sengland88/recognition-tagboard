@@ -9,7 +9,9 @@ import Register from "./pages/Register/register.js";
 import Welcome from "./pages/Welcome/welcome.js";
 import Tagboard from "./pages/Tagboard/tagboard.js";
 import Search from "./pages/Search/search.js";
+import Comment from "./pages/Comment/comment.js";
 import Admin from "./pages/Admin/admin.js";
+import Update from "./pages/Update/update.js";
 
 // components
 import Nav from "./components/Nav";
@@ -25,7 +27,7 @@ class App extends Component {
   componentDidMount() {
     console.log("yo this works")
     this.isAuthorized();
-  }
+  };
 
   isAuthorized = () => {
     API.isAuthorized()
@@ -107,6 +109,22 @@ class App extends Component {
             <Route exact path="/admin">
               {this.state.admin ? (
                 <Admin />
+                ) : (
+                <Redirect to="/login" />
+              )}
+            </Route>
+
+            <Route exact path="/update">
+              {this.state.authorized ? (
+                <Update />
+                ) : (
+                <Redirect to="/login" />
+              )}
+            </Route>
+
+            <Route exact path="/comment">
+              {this.state.authorized ? (
+                <Comment />
                 ) : (
                 <Redirect to="/login" />
               )}
