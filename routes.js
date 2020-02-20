@@ -4,6 +4,7 @@ const router = express.Router();
 const db = require("./models");
 var isAuthenticated = require("./config/middleware/isAuthenticated");
 
+//Post Routes
 router.post("/api/register", function(req, res) {
   console.log("registering user");
 
@@ -41,6 +42,13 @@ router.post("/api/login", function(req, res, next) {
   })(req, res, next);
 });
 
+router.post("/api/admin", isAuthenticated, function(req, res) {
+  console.log("admin connected")
+  console.log(req.body)
+});
+
+
+// Get Routes
 router.get("/api/logout", function(req, res) {
   req.logout();
   res.json({ message: "logged out" });

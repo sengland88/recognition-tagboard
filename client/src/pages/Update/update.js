@@ -74,7 +74,7 @@ class Welcome extends Component {
             </Col>
           </Row>
           <Row>
-            <Col>
+            <Col size="sm">
               <Link to="/welcome">Welcome</Link>
               <Link to="/tagboard">Tagboard</Link>
               <Link to="/search">Search</Link>

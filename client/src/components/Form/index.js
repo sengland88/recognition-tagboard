@@ -8,6 +8,16 @@ export function Input({ type, classes, placeholder, ...other }) {
   {...other} />;
 }
 
+export function TextArea({ type, classes, placeholder, rows, ...other }) {
+  return <textarea type={type} className={"form-control " + (classes ? classes : "")} placeholder={placeholder} rows={rows}
+  {...other} />;
+}
+
+export function Dropdown({ type, classes, placeholder, rows, ...other }) {
+  return <select type={type} className={"form-control " + (classes ? classes : "")} placeholder={placeholder} 
+  {...other} />;
+}
+
 export function Label({ text }) {
   return <label> {text} </label>;
 }

@@ -15,5 +15,9 @@ export default {
   },
   availableUN: function (username) {
     return axios.get("/api/user/?username=" + username);
+  },
+  admin: function (data) {
+    console.log("admin connecting")
+    return axios.post("/api/admin", data);
   }
 };

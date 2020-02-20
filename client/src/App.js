@@ -12,6 +12,7 @@ import Search from "./pages/Search/search.js";
 import Comment from "./pages/Comment/comment.js";
 import Admin from "./pages/Admin/admin.js";
 import Update from "./pages/Update/update.js";
+import NoMatch from "./pages/NoMatch/nomatch.js";
 
 // components
 import Nav from "./components/Nav";
@@ -132,6 +133,10 @@ class App extends Component {
 
             <Route exact path="/">
               <Public />
+            </Route>
+
+            <Route>
+              <NoMatch />
             </Route>
             
           </Switch>
