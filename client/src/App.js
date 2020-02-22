@@ -75,13 +75,15 @@ class App extends Component {
               )}
             </Route>
 
-            <Route exact path="/register">
+            {/* <Route exact path="/register">
               {this.state.authorized ? (
                 <Redirect to="/info" />
               ) : (
                 <Register isAuthorized={this.isAuthorized} />
               )}
-            </Route>
+            </Route> */}
+
+            <Route exact path="/register" component={Register}/>
 
             <Route exact path="/info">
               {this.state.authorized ? (

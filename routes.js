@@ -9,7 +9,7 @@ router.post("/api/register", function(req, res) {
   console.log("registering user");
 
   db.User.register(
-    new db.User({ username: req.body.username, email: req.body.email }),
+    new db.User({ firstname: req.body.firstname, lastname: req.body.lastname, username: req.body.username, email: req.body.email }),
     req.body.password,
     function(err, user) {
       if (err) {
@@ -119,6 +119,17 @@ router.post("/api/admin", isAuthenticated, function(req, res) {
 router.get("/api/logout", function(req, res) {
   req.logout();
   res.json({ message: "logged out" });
+});
+
+router.get("/api/departments", function(req, res) {
+  db.Department.find({})
+  .then(res => {
+    console.log(res[0])
+    res.json(res)
+  })
+  .catch(err => {
+    res.json(err)
+  })
 });
 
 router.get("/api/user", function(req, res) {

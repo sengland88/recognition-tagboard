@@ -9,14 +9,27 @@ const User = new Schema({
         unique: true,
         match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email address']
     },
+    firstname: {
+        type: String,
+        required: true,
+    },
+    lastname: {
+        type: String,
+        required: true,
+    },
+    position: {
+        type: String,
+        required: false,
+    },
+    department: {
+        type: String,
+        required: false
+    },
     admin: {
         type: Boolean,
         default: false
     },
-    employee: {
-        type: Schema.Types.ObjectId,
-        ref: "Employee"
-    },
+
     created: { type: Date, required: true, default: Date.now() },
 });
 

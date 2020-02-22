@@ -1,16 +1,30 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { FormGroup, Input, Label, Small, FormBtn } from "../../components/Form";
+import { Row, Col } from "../../components/Grid";
+import {
+  FormGroup,
+  Input,
+  Label,
+  Small,
+  FormBtn,
+  Dropdown,
+  Option
+} from "../../components/Form";
 import API from "../../utils/API";
 import "./register.css";
 
 class Register extends Component {
   state = {
-    fullName: "",
+    firstname: "",
+    lastname: "",
+    position: "",
+    departments: [],
     username: "",
     email: "",
     password: "",
     confirm: "",
+    validFN: false,
+    validLN: false,
     validUN: false,
     validEM: false,
     validPW: false,
@@ -22,8 +36,18 @@ class Register extends Component {
     )
   };
 
+  componentDidMount() {
+    this.getDepartments()
+  }
+
   validateField = (name, value) => {
     switch (name) {
+      case "firstname":
+        this.setState({ validFN: value !== "" });
+        break;
+      case "lastname":
+        this.setState({ validLN: value !== "" });
+        break;
       case "username":
         if (value.length > 7) {
           API.availableUN(value.toLowerCase())
@@ -59,8 +83,10 @@ class Register extends Component {
 
   register = event => {
     event.preventDefault();
-    console.log(this.state.fullName)
+    console.log(this.state.fullName);
     API.register({
+      firstname: this.state.firstname,
+      lastname: this.state.lastname,
       username: this.state.username.toLowerCase(),
       email: this.state.email,
       password: this.state.password
@@ -72,7 +98,7 @@ class Register extends Component {
           });
         } else {
           console.log("registration successful");
-          this.props.isAuthorized();          
+          this.props.isAuthorized();
         }
       })
       .catch(err => {
@@ -86,6 +112,17 @@ class Register extends Component {
     });
   };
 
+  getDepartments = () => {
+    API.getDepartments()
+    .then(res => {
+      console.log(res[0].data)
+      // this.setState({departments: res})
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -98,55 +135,134 @@ class Register extends Component {
     return (
       <div className="container rounded" id="registerContainer">
         <form>
-        <FormGroup>
-          <Label text="Username" />
-          <Input
-            name="username"
-            value={this.state.username}
-            onChange={this.handleInputChange}
-            placeholder="at least 8 characters"
-            type="text"
-          />
-          {this.state.validUN ? <Small text="Username is available" /> : <Small text="Username is not available" />}
+          <FormGroup>
+            <Row>
+              <Col size="sm-6">
+                <Label text="First Name" />
+                <Input
+                  name="firstname"
+                  value={this.state.firstName}
+                  onChange={this.handleInputChange}
+                  placeholder="John"
+                  type="text"
+                />
+                <Small
+                  text={this.state.validFN ? "" : "No first name entered"}
+                />
+              </Col>
+              <Col size="sm-6">
+                <Label text="Last Name" />
+                <Input
+                  name="lastname"
+                  value={this.state.lastName}
+                  onChange={this.handleInputChange}
+                  placeholder="Smith"
+                  type="text"
+                />
+                <Small
+                  text={this.state.validLN ? "" : "No last name entered"}
+                />
+              </Col>
+            </Row>
+          </FormGroup>
+
+          <FormGroup>
+            <Row>
+              <Col size="sm-6">
+                <Label text="Position" />
+                <Input
+                  name="position"
+                  value={this.state.position}
+                  onChange={this.handleInputChange}
+                  placeholder="Coordinator"
+                  type="text"
+                />
+                <Small text={this.state.validPO ? "" : "No position entered"} />
+              </Col>
+              <Col size="sm-6">
+                <Label text="Department" />
+                <Dropdown placeholder="Choose department">
+                  {this.state.departments.map(department => (
+                    <Option text={department.department} />
+                  ))}
+                  ;
+                </Dropdown>
+                <Small
+                  text={this.state.validLN ? "" : "No last name entered"}
+                />
+              </Col>
+            </Row>
+          </FormGroup>
+
+          <FormGroup>
+            <Label text="Username" />
+            <Input
+              name="username"
+              value={this.state.username}
+              onChange={this.handleInputChange}
+              placeholder="at least 8 characters"
+              type="text"
+            />
+            {this.state.validUN ? (
+              <Small text="Username is available" />
+            ) : (
+              <Small text="Username is not available" />
+            )}
           </FormGroup>
           <FormGroup>
-          <Label text="Email" />
-          <Input
-            name="email"
-            value={this.state.email}
-            onChange={this.handleInputChange}
-            placeholder="Email"
-            type="email"
-          />
-          {this.state.validEM ? <Small text="Email is valid" /> : <Small text="Email is invalid" />}
+            <Label text="Email" />
+            <Input
+              name="email"
+              value={this.state.email}
+              onChange={this.handleInputChange}
+              placeholder="Email"
+              type="email"
+            />
+            {this.state.validEM ? (
+              <Small text="Email is valid" />
+            ) : (
+              <Small text="Email is invalid" />
+            )}
           </FormGroup>
           <FormGroup>
-          <Label text="Password" />
-          <Input
-            name="password"
-            value={this.state.password}
-            onChange={this.handleInputChange}
-            placeholder="at least 8 characters"
-            type="password"
-          />
-          {this.state.validPW ? <Small text="Password is valid" /> : <Small text="Password must be at least 8 characters" />}
+            <Label text="Password" />
+            <Input
+              name="password"
+              value={this.state.password}
+              onChange={this.handleInputChange}
+              placeholder="at least 8 characters"
+              type="password"
+            />
+            {this.state.validPW ? (
+              <Small text="Password is valid" />
+            ) : (
+              <Small text="Password must be at least 8 characters" />
+            )}
           </FormGroup>
           <FormGroup>
-          <Label text="Confirm Password" />
-          <Input
-            name="confirm"
-            value={this.state.confirm}
-            onChange={this.handleInputChange}
-            type="password"
-          />
-          {this.state.validCF ? <Small text="Passwords match" /> : <Small text="Passwords don't match" />}
+            <Label text="Confirm Password" />
+            <Input
+              name="confirm"
+              value={this.state.confirm}
+              onChange={this.handleInputChange}
+              type="password"
+            />
+            {this.state.validCF ? (
+              <Small text="Passwords match" />
+            ) : (
+              <Small text="Passwords don't match" />
+            )}
           </FormGroup>
           {this.state.error ? <Small text={this.state.error} /> : ""}
 
           <FormGroup>
             <FormBtn
               disabled={
-                this.state.validUN && this.state.validEM && this.state.validCF
+                this.state.validFN &&
+                this.state.validLN &&
+                this.state.validUN &&
+                this.state.validEM &&
+                this.state.validCF
                   ? ""
                   : "disabled"
               }

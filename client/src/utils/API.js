@@ -4,6 +4,9 @@ export default {
   register: function (user) {
     return axios.post("/api/register", user);
   },
+  getDepartments: function () {
+    return axios.get("/api/departments");
+  },
   login: function (user) {
     return axios.post("/api/login", user);
   },
