@@ -19,11 +19,11 @@ const User = new Schema({
     },
     position: {
         type: String,
-        required: false,
+        required: true,
     },
     department: {
         type: String,
-        required: false
+        required: true
     },
     admin: {
         type: Boolean,

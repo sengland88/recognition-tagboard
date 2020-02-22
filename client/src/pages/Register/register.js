@@ -19,12 +19,15 @@ class Register extends Component {
     lastname: "",
     position: "",
     departments: [],
+    department: "",
+    departmentselector: "Choose Department ...",
     username: "",
     email: "",
     password: "",
     confirm: "",
     validFN: false,
     validLN: false,
+    validPO: false,
     validUN: false,
     validEM: false,
     validPW: false,
@@ -37,7 +40,7 @@ class Register extends Component {
   };
 
   componentDidMount() {
-    this.getDepartments()
+    this.getDepartments();
   }
 
   validateField = (name, value) => {
@@ -47,6 +50,12 @@ class Register extends Component {
         break;
       case "lastname":
         this.setState({ validLN: value !== "" });
+        break;
+      case "position":
+        this.setState({ validPO: value !== "" });
+        break;
+      case "department":
+        this.setState({ validDP: value !== "" && value !== this.state.departmentselector });
         break;
       case "username":
         if (value.length > 7) {
@@ -83,10 +92,11 @@ class Register extends Component {
 
   register = event => {
     event.preventDefault();
-    console.log(this.state.fullName);
+
     API.register({
       firstname: this.state.firstname,
       lastname: this.state.lastname,
+      position: this.state.position,
       username: this.state.username.toLowerCase(),
       email: this.state.email,
       password: this.state.password
@@ -114,20 +124,25 @@ class Register extends Component {
 
   getDepartments = () => {
     API.getDepartments()
-    .then(res => {
-      console.log(res[0].data)
-      // this.setState({departments: res})
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  }
+      .then(res => {
+        console.log(res.data);
+        res.data.unshift({
+          _id: "selectedID",
+          department: this.state.departmentselector
+        });
+        this.setState({ departments: res.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
       [name]: value
     });
+    console.log(this.state.department);
     this.validateField(name, value);
   };
 
@@ -181,14 +196,18 @@ class Register extends Component {
               </Col>
               <Col size="sm-6">
                 <Label text="Department" />
-                <Dropdown placeholder="Choose department">
+                <Dropdown
+                  name="department"
+                  value={this.state.department}
+                  onChange={this.handleInputChange}
+                >
                   {this.state.departments.map(department => (
-                    <Option text={department.department} />
+                    <Option text={department.department} key={department._id} />
                   ))}
                   ;
                 </Dropdown>
                 <Small
-                  text={this.state.validLN ? "" : "No last name entered"}
+                  text={this.state.validDP ? "" : "No department chosen"}
                 />
               </Col>
             </Row>
@@ -260,6 +279,8 @@ class Register extends Component {
               disabled={
                 this.state.validFN &&
                 this.state.validLN &&
+                this.state.validPO &&
+                this.state.validDP &&
                 this.state.validUN &&
                 this.state.validEM &&
                 this.state.validCF

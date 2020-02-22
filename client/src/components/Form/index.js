@@ -14,7 +14,7 @@ export function TextArea({ type, classes, placeholder, rows, ...other }) {
 }
 
 export function Dropdown({ type, classes, placeholder, rows, children, ...other }) {
-  return <select className={"form-control " + (classes ? classes : "")}  
+  return <select className={"form-control " + (classes ? classes : "") }  
   {...other} > {children} </select>
 }
 

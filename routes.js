@@ -9,7 +9,7 @@ router.post("/api/register", function(req, res) {
   console.log("registering user");
 
   db.User.register(
-    new db.User({ firstname: req.body.firstname, lastname: req.body.lastname, username: req.body.username, email: req.body.email }),
+    new db.User({ firstname: req.body.firstname, lastname: req.body.lastname, position: req.body.position, username: req.body.username, email: req.body.email }),
     req.body.password,
     function(err, user) {
       if (err) {
@@ -123,9 +123,9 @@ router.get("/api/logout", function(req, res) {
 
 router.get("/api/departments", function(req, res) {
   db.Department.find({})
-  .then(res => {
-    console.log(res[0])
-    res.json(res)
+  .then(result => {
+    console.log(result)
+    res.json(result)
   })
   .catch(err => {
     res.json(err)

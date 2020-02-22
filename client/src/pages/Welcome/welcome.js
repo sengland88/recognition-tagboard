@@ -9,15 +9,16 @@ import "./welcome.css";
 
 class Welcome extends Component {
   state = {
-    name: "",
+    firstname: "",
+    lastname: "",
     position: "",
     department: "",
     startDate: ""
   };
 
   componentDidMount() {
-    console.log("welcome page -- retrieving info")
-    this.getInfo()
+    console.log("welcome page -- retrieving info");
+    this.getInfo();
   }
 
   getInfo = () => {
@@ -27,8 +28,14 @@ class Welcome extends Component {
           // this authorize will need to be changed to false
           this.setState({ authorized: false, admin: false });
         } else {
-          console.log(res)
-          this.setState({ authorized: true, admin: res.data.admin});
+          console.log(res);
+          this.setState({
+            authorized: true,
+            admin: res.data.admin,
+            firstname: res.data.firstname,
+            lastname: res.data.lastname,
+            position: res.data.position
+          });
         }
       })
       .catch(err => {
@@ -36,7 +43,7 @@ class Welcome extends Component {
         // this authorize and admin will need to be changed to false
         this.setState({ authorized: false, admin: false });
       });
-  }
+  };
 
   render() {
     return (
@@ -45,39 +52,43 @@ class Welcome extends Component {
           <Title>this is the welcome page</Title>
           <Row>
             <Col size="sm-3">
-            
-            <div>
-              <p>Employee's Photo</p>
-              {/* <img src={props.imgOne} class="d-block w-100 img-fluid" alt="Responsive image"/> */}
-            </div>
-            <p>Employees' name</p>
-            <p>Employees' Department</p>
-            <p>Employees' Start Date</p>
-            <Link to="/update">Update</Link>        
-            
+              <div>
+                <p>Employee's Photo</p>
+                {/* <img src={props.imgOne} class="d-block w-100 img-fluid" alt="Responsive image"/> */}
+              </div>
+              <h4>Name</h4>
+              <p>
+                {this.state.firstname} {this.state.lastname}
+              </p>
+              <h4>Position</h4>
+              <p>{this.state.position}</p>
+              <h4>Department</h4>
+              <p>Employees' Department</p>
+              <h4>Start Date</h4>
+              <p>Employees' Start Date</p>
+              <Link to="/update">Update</Link>
             </Col>
             <Col size="sm-7">
-              <p>Welcome, XXXXX</p>
+              <p>Welcome, {this.state.firstname}!</p>
               <p>This month, we're featuring *insert department here*</p>
               <p>To submit a submit a recognition, click here.</p>
               <p>To submit a nomination for a colleague, click here.</p>
             </Col>
-
           </Row>
           <Row>
             <Col size="sm">
-            <Link to="/welcome">Welcome</Link>
-            <Link to="/tagboard">Tagboard</Link>
-            <Link to="/search">Search</Link>
-            <Link to="/admin">Admin</Link>
-            <Link to="/update">Update</Link>
-            <Link to="/comment">Comment</Link>
+              <Link to="/welcome">Welcome</Link>
+              <Link to="/tagboard">Tagboard</Link>
+              <Link to="/search">Search</Link>
+              <Link to="/admin">Admin</Link>
+              <Link to="/update">Update</Link>
+              <Link to="/comment">Comment</Link>
             </Col>
           </Row>
         </Container>
       </div>
     );
-  };
+  }
 }
 
 export default Welcome;
