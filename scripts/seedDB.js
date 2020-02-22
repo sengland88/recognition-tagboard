@@ -10,15 +10,15 @@ mongoose.connect(
 
 const departmentSeed = [
   {
-    department: "Organizational Communication",
+    name: "Organizational Communication",
     created: Date.now()
   },
   {
-    department: "Talent Acquisition",
+    name: "Talent Acquisition",
     created: Date.now()
   },
   {
-    department: "Conferencing and College Events",
+    name: "Conferencing and College Events",
     created: Date.now()
   }, 
 ];

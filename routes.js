@@ -9,7 +9,13 @@ router.post("/api/register", function(req, res) {
   console.log("registering user");
 
   db.User.register(
-    new db.User({ firstname: req.body.firstname, lastname: req.body.lastname, position: req.body.position, username: req.body.username, email: req.body.email }),
+    new db.User({ 
+      firstname: req.body.firstname, 
+      lastname: req.body.lastname, 
+      position: req.body.position, 
+      department_id: req.body.department_id, 
+      username: req.body.username, 
+      email: req.body.email }),
     req.body.password,
     function(err, user) {
       if (err) {

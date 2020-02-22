@@ -21,8 +21,9 @@ const User = new Schema({
         type: String,
         required: true,
     },
-    department: {
-        type: String,
+    department_id: {
+        type: Schema.Types.ObjectId,
+        ref: "Department",
         required: true
     },
     admin: {

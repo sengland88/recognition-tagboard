@@ -91,12 +91,14 @@ class Register extends Component {
   };
 
   register = event => {
-    event.preventDefault();
+    event.preventDefault(); 
+    
 
     API.register({
       firstname: this.state.firstname,
       lastname: this.state.lastname,
       position: this.state.position,
+      department_id: this.state.departments.filter(department => department.name === this.state.department)[0],
       username: this.state.username.toLowerCase(),
       email: this.state.email,
       password: this.state.password
@@ -128,7 +130,7 @@ class Register extends Component {
         console.log(res.data);
         res.data.unshift({
           _id: "selectedID",
-          department: this.state.departmentselector
+          name: this.state.departmentselector
         });
         this.setState({ departments: res.data });
       })
@@ -202,7 +204,7 @@ class Register extends Component {
                   onChange={this.handleInputChange}
                 >
                   {this.state.departments.map(department => (
-                    <Option text={department.department} key={department._id} />
+                    <Option text={department.name} key={department._id} />
                   ))}
                   ;
                 </Dropdown>
