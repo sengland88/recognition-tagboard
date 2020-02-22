@@ -6,7 +6,7 @@ import Row from "../../components/Row";
 import Col from "../../components/Col";
 import { FormGroup, Input, Label, Small, FormBtn } from "../../components/Form";
 import API from "../../utils/API";
-import "./update.css";
+import "./info.css";
 
 class Welcome extends Component {
   state = {
@@ -58,9 +58,10 @@ class Welcome extends Component {
     return (
       <div className="container">
         <Container>
-          <Title>this is the update page</Title>
+          <Title>this is the info page</Title>
           <Row>
             <Col size="sm">
+              <p>Welcome to Valencia College's Recognition platform. Now that you're here, we need a little bit of information about you, like your name, position and department.</p>
               <FormGroup>
                 <Label text="Name" />
                 <Input

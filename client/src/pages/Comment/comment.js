@@ -55,17 +55,6 @@ class Comment extends Component {
               </FormGroup>
 
               <FormGroup>
-                <Label text="type" />
-                <Input
-                  name="type"
-                  value={this.state.type}
-                  onChange={this.handleInputChange}
-                  // placeholder="at least 8 characters"
-                  type="text"
-                />
-              </FormGroup>
-
-              <FormGroup>
                 <Label text="comment" />
                 <TextArea
                   name="comment"

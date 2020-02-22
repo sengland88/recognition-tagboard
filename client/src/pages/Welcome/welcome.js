@@ -27,7 +27,7 @@ class Welcome extends Component {
           // this authorize will need to be changed to false
           this.setState({ authorized: false, admin: false });
         } else {
-          console.log(res.data)
+          console.log(res)
           this.setState({ authorized: true, admin: res.data.admin});
         }
       })

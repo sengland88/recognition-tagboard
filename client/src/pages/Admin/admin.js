@@ -23,7 +23,7 @@ class Admin extends Component {
       name: this.state.name,
       position: this.state.position,
       department: this.state.department,
-      admin: this.state
+      admin: this.state.admin
     })
     .then(res => {
       console.log("admin is done")

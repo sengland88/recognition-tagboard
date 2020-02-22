@@ -19,5 +19,13 @@ export default {
   admin: function (data) {
     console.log("admin connecting")
     return axios.post("/api/admin", data);
+  },
+  welcome: function (data) {
+    console.log("welcome connecting")
+    return axios.get("/api/welcome");
+  },
+  update: function (data) {
+    console.log("update connecting")
+    return axios.post("/api/update", data);
   }
 };

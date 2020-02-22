@@ -4,14 +4,12 @@ const router = express.Router();
 const db = require("./models");
 var isAuthenticated = require("./config/middleware/isAuthenticated");
 
-//Post Routes
+//Post Routes++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 router.post("/api/register", function(req, res) {
   console.log("registering user");
 
-  //Do password validation here before attempting to register user, such as checking for password length, capital letters, special characters, etc.
-
   db.User.register(
-    new db.User({ username: req.body.username, email: req.body.email, fullName: req.body.fullName }),
+    new db.User({ username: req.body.username, email: req.body.email }),
     req.body.password,
     function(err, user) {
       if (err) {
@@ -42,13 +40,82 @@ router.post("/api/login", function(req, res, next) {
   })(req, res, next);
 });
 
+router.post("/api/update", isAuthenticated, function(req, res) {
+  console.log("update connected")
+  console.log(req)
+  
+  // let adminRights
+  // if (req.body.admin === true) {
+  //   adminRights = true
+  // } else {
+  //   adminRights = false 
+  // }
+
+  // let result = {
+  //   name: req.body.name,
+  //   position: req.body.position,
+  //   department: req.body.department,
+  //   admin: adminRights
+  // }
+
+  // db.Employee.create(result)
+  //   .then(function(data) {
+  //     return db.User.findOneAndUpdate(
+  //       { _id: req.user.id },
+  //       { employee: data._id },
+  //       { new: true }
+  //     );
+  //   })
+  //   .then(function(data){
+  //     res.json(data)
+  //   })
+  //   .catch(function(err) {
+  //     console.log(err)
+  //   })
+});
+
+router.post("/api/comment", isAuthenticated, function(req, res) {
+  console.log("comment connected")
+  console.log(req.body)
+
+  // let result = {
+  //   name: req.body.name,
+  //   position: req.body.position,
+  //   department: req.body.department,
+  //   admin: req.body.admin
+  // }
+
+  // db.Employee.create(result)
+  //   .then(function(data) {
+  //     console.log(data)
+  //   })
+  //   .catch(function(err) {
+  //     console.log(err)
+  //   })
+});
+
 router.post("/api/admin", isAuthenticated, function(req, res) {
   console.log("admin connected")
   console.log(req.body)
+
+  let result = {
+    name: req.body.name,
+    position: req.body.position,
+    department: req.body.department,
+    admin: req.body.admin
+  }
+
+  db.Employee.create(result)
+    .then(function(data) {
+      console.log(data)
+    })
+    .catch(function(err) {
+      console.log(err)
+    })
 });
 
 
-// Get Routes
+// Get Routes+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 router.get("/api/logout", function(req, res) {
   req.logout();
   res.json({ message: "logged out" });

@@ -72,12 +72,12 @@ class Register extends Component {
           });
         } else {
           console.log("registration successful");
-          this.props.isAuthorized();
+          this.props.isAuthorized();          
         }
       })
       .catch(err => {
         console.log(err);
-        this.setState({ error: "A server error has occured." });
+        this.setState({ error: "A server error has occurred." });
       });
 
     this.setState({
