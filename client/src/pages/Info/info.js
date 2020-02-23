@@ -4,7 +4,7 @@ import Container from "../../components/Container";
 import Title from "../../components/Title";
 import Row from "../../components/Row";
 import Col from "../../components/Col";
-import { FormGroup, Input, Label, Small, FormBtn } from "../../components/Form";
+import { FormGroup, Input, Label, FormBtn } from "../../components/Form";
 import API from "../../utils/API";
 import "./info.css";
 
@@ -18,34 +18,35 @@ class Welcome extends Component {
   };
 
   update = event => {
-    console.log("button works")
+    console.log("button works");
     event.preventDefault();
     API.update({
       name: this.state.name,
       position: this.state.position,
       department: this.state.department,
       admin: this.state.admin
-    }).then(res => {
-      if (res.data.message) {
-        console.log("didn't work")
-        this.setState({error: res.data.message});
-      } else {
-        console.log("information added")
-        this.props.isAuthorized();
-      }
     })
-    .catch(err => {
-      console.log("an error")
-      console.log(err)
-      this.setState({ error: "A server error has occurred." });
-    })
+      .then(res => {
+        if (res.data.message) {
+          console.log("didn't work");
+          this.setState({ error: res.data.message });
+        } else {
+          console.log("information added");
+          this.props.isAuthorized();
+        }
+      })
+      .catch(err => {
+        console.log("an error");
+        console.log(err);
+        this.setState({ error: "A server error has occurred." });
+      });
 
     this.setState({
       name: "",
       position: "",
-      department: "",
+      department: ""
     });
-  }
+  };
 
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -61,7 +62,11 @@ class Welcome extends Component {
           <Title>this is the info page</Title>
           <Row>
             <Col size="sm">
-              <p>Welcome to Valencia College's Recognition platform. Now that you're here, we need a little bit of information about you, like your name, position and department.</p>
+              <p>
+                Welcome to Valencia College's Recognition platform. Now that
+                you're here, we need a little bit of information about you, like
+                your name, position and department.
+              </p>
               <FormGroup>
                 <Label text="Name" />
                 <Input
@@ -96,9 +101,9 @@ class Welcome extends Component {
               </FormGroup>
 
               <FormBtn
-              text="Submit"
-              onClick={this.update}
-              classes="btn-primary"
+                text="Submit"
+                onClick={this.update}
+                classes="btn-primary"
               />
             </Col>
           </Row>

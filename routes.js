@@ -122,13 +122,23 @@ router.post("/api/admin", isAuthenticated, function(req, res) {
 
 
 // Get Routes+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-router.get("/api/logout", function(req, res) {
-  req.logout();
-  res.json({ message: "logged out" });
-});
 
 router.get("/api/departments", function(req, res) {
   db.Department.find({})
+  .then(result => {
+    console.log(result)
+    res.json(result)
+  })
+  .catch(err => {
+    res.json(err)
+  })
+});
+
+router.get("/api/welcome", isAuthenticated, function(req, res) {
+  console.log("welcome connected")
+  console.log(req)
+  db.User.find({ _id: req.user._id})
+  .populate("department_id")
   .then(result => {
     console.log(result)
     res.json(result)
@@ -142,10 +152,10 @@ router.get("/api/user", function(req, res) {
   console.log("available username");
   if (req.query.username) {
     db.User.find({ username: req.query.username })
-      .then(result => {
-        res.json({ length: result.length });
-      })
-      .catch(err => res.status(422).json(err));
+    .then(result => {
+      res.json({ length: result.length });
+    })
+    .catch(err => res.status(422).json(err));
   } else {
     res.json({ message: "no username entered for query" });
   }
@@ -154,6 +164,12 @@ router.get("/api/user", function(req, res) {
 router.get("/api/authorized", isAuthenticated, function(req, res) {
   console.log(req.user)
   res.json(req.user);
+});
+
+
+router.get("/api/logout", function(req, res) {
+  req.logout();
+  res.json({ message: "logged out" });
 });
 
 module.exports = router;

@@ -9,10 +9,10 @@ import {
   Input,
   TextArea,
   Label,
-  Small,
+  // Small,
   FormBtn
 } from "../../components/Form";
-import API from "../../utils/API";
+// import API from "../../utils/API";
 import "./comment.css";
 
 class Comment extends Component {

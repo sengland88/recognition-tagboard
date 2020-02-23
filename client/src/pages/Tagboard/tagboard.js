@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import {BrowserRouter as Router, Route} from "react-router-dom";
-import Nav from "../../components/Nav";
-import Jumbotron from "../../components/Jumbotron";
+// import {BrowserRouter as Router, Route} from "react-router-dom";
+// import Nav from "../../components/Nav";
+// import Jumbotron from "../../components/Jumbotron";
 import Container from "../../components/Container";
 import Title from "../../components/Title";
 import Row from "../../components/Row";
 import Col from "../../components/Col";
-import API from "../../utils/API";
+// import API from "../../utils/API";
 import "./tagboard.css";
 
 class Tagboard extends Component {

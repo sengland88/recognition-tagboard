@@ -1,8 +1,13 @@
 import React, { Component } from "react";
-import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import API from "./utils/API";
 
-//pages 
+//pages
 import Public from "./pages/Public/public.js";
 import Login from "./pages/Login/login.js";
 import Register from "./pages/Register/register.js";
@@ -23,28 +28,33 @@ class App extends Component {
   state = {
     // authorize and admin will need to be changed to false
     authorized: false,
-    admin: true
+    admin: true,
+    display: false
   };
 
   componentDidMount() {
-    console.log("yo this works")
+    console.log("yo this works");
     this.isAuthorized();
-  };
+  }
 
   isAuthorized = () => {
     API.isAuthorized()
       .then(res => {
         if (res.data.message) {
           // this authorize will need to be changed to false
-          this.setState({ authorized: false, admin: true });
+          this.setState({ authorized: false, admin: true, display: true });
         } else {
-          this.setState({ authorized: true, admin: res.data.admin });
+          this.setState({
+            authorized: true,
+            admin: res.data.admin,
+            display: true
+          });
         }
       })
       .catch(err => {
         console.log(err);
         // this authorize and admin will need to be changed to false
-        this.setState({ authorized: false, admin: true });
+        this.setState({ authorized: false, admin: true, display: true });
       });
   };
 
@@ -61,98 +71,69 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-      <Nav />
       <Router>
+        {this.state.display ? (
+          <React.Fragment>
+            <Nav />
+            <Switch>
+              <Route exact path="/login">
+                <Login
+                  isAuthorized={this.isAuthorized}
+                  authorized={this.state.authorized}
+                  redirect={window.location.pathname}
+                />
+              </Route>
 
-          <Switch>
-
-            <Route exact path="/login">
-              {this.state.authorized ? (
-                <Redirect to="/" />
-              ) : (
-                <Login isAuthorized={this.isAuthorized} />
-              )}
-            </Route>
-
-            <Route exact path="/register">
-              {this.state.authorized ? (
-                <Redirect to="/info" />
-              ) : (
-                <Register isAuthorized={this.isAuthorized} />
-              )}
-            </Route>
-
-            {/* <Route exact path="/register" component={Register}/> */}
-
-            <Route exact path="/info">
-              {this.state.authorized ? (
-                <Info />
+              <Route exact path="/register">
+                {this.state.authorized ? (
+                  <Redirect to="/welcome" />
                 ) : (
-                <Redirect to="/info" />
-              )}
-            </Route>
+                  <Register isAuthorized={this.isAuthorized} />
+                )}
+              </Route>
 
-            <Route exact path="/welcome">
-              {this.state.authorized ? (
-                <Welcome />
+              <Route exact path="/welcome">
+                {this.state.authorized ? <Welcome /> : <Redirect to="/login" />}
+              </Route>
+
+              <Route exact path="/tagboard">
+                {this.state.authorized ? (
+                  <Tagboard />
                 ) : (
-                <Redirect to="/login" />
-              )}
-            </Route>
+                  <Redirect to="/login" />
+                )}
+              </Route>
 
-            <Route exact path="/tagboard">
-              {this.state.authorized ? (
-                <Tagboard />
-                ) : (
-                <Redirect to="/login" />
-              )}
-            </Route>
+              <Route exact path="/search">
+                {this.state.authorized ? <Search /> : <Redirect to="/login" />}
+              </Route>
 
-            <Route exact path="/search">
-              {this.state.authorized ? (
-                <Search />
-                ) : (
-                <Redirect to="/login" />
-              )}
-            </Route>
+              <Route exact path="/admin">
+                {this.state.admin ? <Admin /> : <Redirect to="/login" />}
+              </Route>
 
-            <Route exact path="/admin">
-              {this.state.admin ? (
-                <Admin />
-                ) : (
-                <Redirect to="/login" />
-              )}
-            </Route>
+              <Route exact path="/update">
+                {this.state.authorized ? <Update /> : <Redirect to="/login" />}
+              </Route>
 
-            <Route exact path="/update">
-              {this.state.authorized ? (
-                <Update />
-                ) : (
-                <Redirect to="/login" />
-              )}
-            </Route>
+              <Route exact path="/comment">
+                {this.state.authorized ? <Comment /> : <Redirect to="/login" />}
+              </Route>
 
-            <Route exact path="/comment">
-              {this.state.authorized ? (
-                <Comment />
-                ) : (
-                <Redirect to="/login" />
-              )}
-            </Route>
+              <Route exact path="/">
+                <Public />
+              </Route>
 
-            <Route exact path="/">
-              <Public />
-            </Route>
-
-            <Route>
-              <NoMatch />
-            </Route>
-            
-          </Switch>
+              <Route>
+                <NoMatch />
+              </Route>
+            </Switch>
+            <Footer />
+          </React.Fragment>
+        ) : (
+          ""
+        )}
       </Router>
-      <Footer/>
-      </div>
     );
   }
 }

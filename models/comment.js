@@ -3,10 +3,20 @@ const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
 const Comment = new Schema({
-    // type: {
-    //     type: String,
-    //     required: true
-    // },
+    submitter_id: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    receiver_id: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    type: {
+        type: String,
+        required: true
+    },
     comment: {
         type: String,
         required: true
