@@ -10,7 +10,27 @@ mongoose.connect(
 
 const departmentSeed = [
   {
+    name: "Organizational Design and Development",
+    created: Date.now()
+  },
+  {
+    name: "Conferencing and College Events",
+    created: Date.now()
+  },
+  {
+    name: "Employee Development",
+    created: Date.now()
+  },
+  {
+    name: "HR Policy and Compliance",
+    created: Date.now()
+  },
+  {
     name: "Organizational Communication",
+    created: Date.now()
+  },
+  {
+    name: "Total Rewards",
     created: Date.now()
   },
   {
@@ -18,9 +38,41 @@ const departmentSeed = [
     created: Date.now()
   },
   {
-    name: "Conferencing and College Events",
+    name: "Payroll Services",
     created: Date.now()
-  }, 
+  },
+  {
+    name: "Employee Records",
+    created: Date.now()
+  },
+  {
+    name: "Compensation",
+    created: Date.now()
+  },
+  {
+    name: "HRIS and Analytics",
+    created: Date.now()
+  },
+  {
+    name: "Regional Solution Center, West Region",
+    created: Date.now()
+  },
+  {
+    name: "Regional Solution Center, East Region",
+    created: Date.now()
+  },
+  {
+    name: "Regional Solution Center, Osceola Region",
+    created: Date.now()
+  },
+  {
+    name: "Employment Services",
+    created: Date.now()
+  },
+  {
+    name: "ODHR Administration",
+    created: Date.now()
+  },
 ];
 
 db.Department

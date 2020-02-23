@@ -7,23 +7,60 @@ import Col from "../../components/Col";
 import {
   FormGroup,
   Input,
-  TextArea,
   Label,
-  // Small,
-  FormBtn
+  TextArea,
+  Small,
+  FormBtn,
+  Dropdown,
+  Option
 } from "../../components/Form";
-// import API from "../../utils/API";
+import API from "../../utils/API";
 import "./comment.css";
 
 class Comment extends Component {
   state = {
+    departmentselector: "Choose Department ...",
+    departments: [],
     recognized: "",
-    type: "",
+    department: "",
+    department_id: "",
     comment: ""
+    // submitter: "",
+    // type: "",
+  };
+
+  componentDidMount() {
+    this.getDepartments();
+  }
+
+  getDepartments = () => {
+    API.getDepartments()
+      .then(res => {
+        console.log(res.data);
+        res.data.unshift({
+          _id: "selectedID",
+          name: this.state.departmentselector
+        });
+        this.setState({ departments: res.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   comment = () => {
-    console.log("button works");
+
+    API.submitComment({
+      department_id: this.state.department_id,
+      comment: this.state.comment      
+    })
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+    
   };
 
   handleInputChange = event => {
@@ -31,8 +68,17 @@ class Comment extends Component {
     this.setState({
       [name]: value
     });
-    console.log(this.state.type);
-    console.log(this.state.comment);
+  };
+
+  handleFormChange = event => {
+    const { name, value } = event.target.value
+    this.setState({
+      [name]: value
+    });
+  };
+
+  handleDropDownChange = event => {
+    this.setState( {department_id: event.target.value})
   };
 
   render() {
@@ -40,18 +86,23 @@ class Comment extends Component {
       <div>
         <Container>
           <Title>This is the comment page</Title>
-
           <Row>
             <Col size="sm">
               <FormGroup>
-                <Label text="type" />
-                <Input
-                  name="type"
-                  value={this.state.type}
-                  onChange={this.handleInputChange}
-                  // placeholder="at least 8 characters"
-                  type="text"
-                />
+                <Label text="Department" />
+                <Dropdown
+                  name="department"
+                  value={this.state.department}
+                  onChange={this.handleDropDownChange}
+                >
+                  {this.state.departments.map(department => (
+                    <Option text={department.name} key={department._id} value={department._id}/>
+                  ))}
+                  ;
+                </Dropdown>
+                {/* <Small
+                  text={this.state.validDP ? "" : "No department chosen"}
+                /> */}
               </FormGroup>
 
               <FormGroup>

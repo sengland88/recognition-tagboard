@@ -13,13 +13,13 @@ export function TextArea({ type, classes, placeholder, rows, ...other }) {
   {...other} />;
 }
 
-export function Dropdown({ type, classes, placeholder, rows, children, ...other }) {
-  return <select className={"form-control " + (classes ? classes : "") }  
+export function Dropdown({ type, classes, placeholder, rows, children, value, ...other }) {
+  return <select className={"form-control " + (classes ? classes : "")}
   {...other} > {children} </select>
 }
 
-export function Option({ text }) {
-  return <option> {text} </option>;
+export function Option({ text, value }) {
+  return <option value={value}> {text} </option>;
 }
 
 export function Label({ text }) {

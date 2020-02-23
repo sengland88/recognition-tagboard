@@ -22,7 +22,7 @@ class Welcome extends Component {
   }
 
   getInfo = () => {
-    API.welcome()
+    API.getUserInfo()
       .then(res => {
         if (res.data.message) {
           // this authorize will need to be changed to false

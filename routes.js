@@ -46,58 +46,32 @@ router.post("/api/login", function(req, res, next) {
   })(req, res, next);
 });
 
-router.post("/api/update", isAuthenticated, function(req, res) {
-  console.log("update connected")
+router.post("/api/imageupload", isAuthenticated, function(req, res) {
+  console.log("image connected")
   console.log(req)
-  
-  // let adminRights
-  // if (req.body.admin === true) {
-  //   adminRights = true
-  // } else {
-  //   adminRights = false 
-  // }
 
-  // let result = {
-  //   name: req.body.name,
-  //   position: req.body.position,
-  //   department: req.body.department,
-  //   admin: adminRights
-  // }
-
-  // db.Employee.create(result)
-  //   .then(function(data) {
-  //     return db.User.findOneAndUpdate(
-  //       { _id: req.user.id },
-  //       { employee: data._id },
-  //       { new: true }
-  //     );
-  //   })
-  //   .then(function(data){
-  //     res.json(data)
-  //   })
-  //   .catch(function(err) {
-  //     console.log(err)
-  //   })
+// work on this route
 });
+
 
 router.post("/api/comment", isAuthenticated, function(req, res) {
   console.log("comment connected")
+  console.log(req.user)
   console.log(req.body)
 
-  // let result = {
-  //   name: req.body.name,
-  //   position: req.body.position,
-  //   department: req.body.department,
-  //   admin: req.body.admin
-  // }
+  let data = {
+    submitter_id: req.user._id,
+    department_id: req.body.department_id,
+    comment: req.body.comment
+  }
 
-  // db.Employee.create(result)
-  //   .then(function(data) {
-  //     console.log(data)
-  //   })
-  //   .catch(function(err) {
-  //     console.log(err)
-  //   })
+  db.Comment.create(data)
+    .then(function(data) {
+      console.log(data)
+    })
+    .catch(function(err) {
+      console.log(err)
+    })
 });
 
 router.post("/api/admin", isAuthenticated, function(req, res) {
@@ -134,7 +108,7 @@ router.get("/api/departments", function(req, res) {
   })
 });
 
-router.get("/api/welcome", isAuthenticated, function(req, res) {
+router.get("/api/userinfo", isAuthenticated, function(req, res) {
   console.log("welcome connected")
   console.log(req)
   db.User.find({ _id: req.user._id})
@@ -166,10 +140,34 @@ router.get("/api/authorized", isAuthenticated, function(req, res) {
   res.json(req.user);
 });
 
-
 router.get("/api/logout", function(req, res) {
   req.logout();
   res.json({ message: "logged out" });
+});
+
+
+// Put Routes+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+router.put("/api/update", isAuthenticated, function(req, res) {
+  console.log("update connected")
+  console.log(req.body)
+
+  // this works ... just creates a new entry. ask for help
+
+  // db.User.update(req.body)
+  //   .then(function(data) {
+  //     return db.User.findOneAndUpdate(
+  //       { _id: req.user.id },
+  //       { employee: data._id },
+  //       { new: true }
+  //     );
+  //   })
+  //   .then(function(data){
+  //     res.json(data)
+  //   })
+  //   .catch(function(err) {
+  //     console.log(err)
+  //   })
 });
 
 module.exports = router;

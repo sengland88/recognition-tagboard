@@ -8,19 +8,19 @@ const Comment = new Schema({
         ref: "User",
         required: true
     },
-    receiver_id: {
+    department_id: {
         type: Schema.Types.ObjectId,
-        ref: "User",
-        required: true
-    },
-    type: {
-        type: String,
+        ref: "Department",
         required: true
     },
     comment: {
         type: String,
         required: true
     },
+    // type: {
+    //     type: String,
+    //     required: true
+    // },
     created: { type: Date, required: true, default: Date.now() },
 });
 

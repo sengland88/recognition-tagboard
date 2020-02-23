@@ -33,8 +33,9 @@ class App extends Component {
   };
 
   componentDidMount() {
-    console.log("yo this works");
     this.isAuthorized();
+    //modal.show
+    //create function to show the modals
   }
 
   isAuthorized = () => {
@@ -92,7 +93,7 @@ class App extends Component {
                 )}
               </Route>
 
-              <Route exact path="/welcome">
+              <Route path="/welcome">
                 {this.state.authorized ? <Welcome /> : <Redirect to="/login" />}
               </Route>
 
@@ -128,6 +129,11 @@ class App extends Component {
                 <NoMatch />
               </Route>
             </Switch>
+
+            {/* <Route exact path="/welcome/comment">
+              <Tagboard/>
+              
+            </Route> */}
             <Footer />
           </React.Fragment>
         ) : (
