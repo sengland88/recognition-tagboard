@@ -1,25 +1,51 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 // import {BrowserRouter as Router, Route} from "react-router-dom";
-// import Nav from "../../components/Nav";
-// import Jumbotron from "../../components/Jumbotron";
-import Container from "../../components/Container";
+import { Container, Row, Col } from "../../components/Grid";
 import Title from "../../components/Title";
-import Row from "../../components/Row";
-import Col from "../../components/Col";
-// import API from "../../utils/API";
+import { FormBtn } from "../../components/Form";
+import API from "../../utils/API";
 import "./tagboard.css";
+import CommentCard from "../../components/CommentCard/commentcard";
 
 class Tagboard extends Component {
+  state = {
+    message: "test message",    
+    comments: []
+  };
+
+  componentDidMount() {
+    this.getComments();
+  }
+
+  getComments = () => {
+    API.getComments()
+      .then(res => {
+        console.log(res);
+        this.setState({ comments: res.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   render() {
     return (
       <div className="container">
         <Container>
           <Title>This is the tagboard</Title>
+          <Title>{this.state.message}</Title>
+          <button>
+            <Link to="/comment">Add Comment</Link>
+          </button>
           <Row>
-            {/* // will need to map over employee comments that match the current department being featured */}
-            <Col size="sm">this is where the picture, employees name, department and employee start date will go</Col>
-
+              {this.state.comments.map(comment => (
+                <CommentCard 
+                comment={comment.comment}
+                submitter={`${comment.submitter_id.firstname} ${comment.submitter_id.lastname}`}
+                thedate={comment.created}
+                />
+              ))}
           </Row>
           <Row>
             <Col size="sm">
@@ -34,7 +60,7 @@ class Tagboard extends Component {
         </Container>
       </div>
     );
-  };
+  }
 }
 
 export default Tagboard;

@@ -135,6 +135,19 @@ router.get("/api/user", function(req, res) {
   }
 });
 
+router.get("/api/loadcomments", function(req, res) {
+  console.log("load comments connected")
+  db.Comment.find({})
+  .populate("submitter_id")
+  .then(result => {
+    console.log(result)
+    res.json(result)
+  })
+  .catch(err => {
+    res.json(err)
+  })
+});
+
 router.get("/api/authorized", isAuthenticated, function(req, res) {
   console.log(req.user)
   res.json(req.user);

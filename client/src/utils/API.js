@@ -38,6 +38,10 @@ export default {
     console.log("welcome connecting")
     return axios.get("/api/userinfo");
   },
+  getComments: function (data) {
+    console.log("load comments connecting")
+    return axios.get("/api/loadcomments");
+  },
 
   // Put Routes
   updateUserInfo: function (data) {

@@ -12,7 +12,6 @@ import Public from "./pages/Public/public.js";
 import Login from "./pages/Login/login.js";
 import Register from "./pages/Register/register.js";
 import Welcome from "./pages/Welcome/welcome.js";
-import Info from "./pages/Info/info.js";
 import Tagboard from "./pages/Tagboard/tagboard.js";
 import Search from "./pages/Search/search.js";
 import Comment from "./pages/Comment/comment.js";

@@ -60,6 +60,12 @@ class Comment extends Component {
     .catch(err => {
       console.log(err)
     })
+
+    this.setState({
+      department: "",
+      department_id: "",
+      comment: ""
+    });
     
   };
 
@@ -86,6 +92,7 @@ class Comment extends Component {
       <div>
         <Container>
           <Title>This is the comment page</Title>
+          <Title>{this.state.mess}</Title>
           <Row>
             <Col size="sm">
               <FormGroup>

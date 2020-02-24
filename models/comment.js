@@ -17,10 +17,6 @@ const Comment = new Schema({
         type: String,
         required: true
     },
-    // type: {
-    //     type: String,
-    //     required: true
-    // },
     created: { type: Date, required: true, default: Date.now() },
 });
 
