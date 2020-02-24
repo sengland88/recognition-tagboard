@@ -98,7 +98,18 @@ router.post("/api/admin", isAuthenticated, function(req, res) {
 // Get Routes+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 router.get("/api/departments", function(req, res) {
-  db.Department.find({})
+  db.Department.find({}).sort( {name: 1})
+  .then(result => {
+    console.log(result)
+    res.json(result)
+  })
+  .catch(err => {
+    res.json(err)
+  })
+});
+
+router.get("/api/loademployees", function(req, res) {
+  db.User.find({}).sort({firstname: 1})
   .then(result => {
     console.log(result)
     res.json(result)

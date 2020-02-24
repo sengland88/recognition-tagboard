@@ -42,6 +42,10 @@ export default {
     console.log("load comments connecting")
     return axios.get("/api/loadcomments");
   },
+  getEmployees: function () {
+    console.log("getting employees")
+    return axios.get("/api/loademployees");
+  },
 
   // Put Routes
   updateUserInfo: function (data) {
