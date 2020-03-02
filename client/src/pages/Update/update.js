@@ -25,6 +25,7 @@ class Update extends Component {
     lastname: "",
     position: "",
     departments: [],
+    email: "",
     error: ""
   };
 
@@ -61,7 +62,8 @@ class Update extends Component {
             firstname: res.data[0].firstname,
             lastname: res.data[0].lastname,
             position: res.data[0].position,
-            department: res.data[0].department_id.name
+            department: res.data[0].department_id.name,
+            email: res.data[0].email
           });
         }
       })
@@ -81,23 +83,23 @@ class Update extends Component {
   };
 
   fileSelectedHandler = event => {
-    console.log(event.target.files[0])
-    this.setState( {image : event.target.files[0]})
+    console.log(event.target.files[0]);
+    this.setState({ image: event.target.files[0] });
   };
 
   fileUploadHandler = () => {
-    console.log("this works")
-    const fd = new FormData
+    console.log("this works");
+    const fd = new FormData();
     fd.append("image", this.state.image, this.state.image.name);
-    console.log(fd)
+    console.log(fd);
 
     API.imageUpload(fd)
       .then(res => {
-        console.log(res)
+        console.log(res);
       })
       .catch(err => {
-        console.log(err)
-      })
+        console.log(err);
+      });
   };
 
   validateField = (name, value) => {
@@ -131,9 +133,9 @@ class Update extends Component {
           this.setState({ validUN: false });
         }
         break;
-      case "email":
-        this.setState({ validEM: this.state.reg.test(value) });
-        break;
+      // case "email":
+      //   this.setState({ validEM: this.state.reg.test(value) });
+      //   break;
       case "password":
         this.setState({
           validPW: value.length > 7,
@@ -156,7 +158,10 @@ class Update extends Component {
       firstname: this.state.firstname,
       lastname: this.state.lastname,
       position: this.state.position,
-      department_id: this.state.departments.filter(department => department.name === this.state.department)[0],
+      department_id: this.state.departments.filter(
+        department => department.name === this.state.department
+      )[0],
+      email: this.state.email
     })
       .then(res => {
         if (res.data.message) {
@@ -164,8 +169,7 @@ class Update extends Component {
           this.setState({ message: res.data.message });
         } else {
           console.log("information added");
-          this.props.isAuthorized();
-          this.setState({ message: "Your information has been updated"})
+          this.setState({ message: "Your information has been updated" });
         }
       })
       .catch(err => {
@@ -174,8 +178,7 @@ class Update extends Component {
         this.setState({ message: "A server error has occurred." });
       });
 
-    this.setState({
-    });
+    this.setState({});
   };
 
   render() {
@@ -184,9 +187,9 @@ class Update extends Component {
         <Container>
           <Title>this is the update page</Title>
           <Title>{this.state.message}</Title>
-          <Input name="image" type="file" onChange={this.fileSelectedHandler} />
+          {/* <Input name="image" type="file" onChange={this.fileSelectedHandler} />
           <Button onClick={this.fileUploadHandler}>Upload</Button>
-          <hr></hr>
+          <hr></hr> */}
           <Row>
             <Col size="sm">
               <FormGroup>
@@ -250,6 +253,22 @@ class Update extends Component {
                     />
                   </Col>
                 </Row>
+              </FormGroup>
+
+              <FormGroup>
+                <Label text="Email" />
+                <Input
+                  name="email"
+                  value={this.state.email}
+                  onChange={this.handleInputChange}
+                  placeholder="Email"
+                  type="email"
+                />
+                {/* {this.state.validEM ? (
+              <Small text="Email is valid" />
+            ) : (
+              <Small text="Email is invalid" />
+            )} */}
               </FormGroup>
 
               <FormBtn

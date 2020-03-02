@@ -3,7 +3,7 @@ import "./commentcard.css";
 
 function CommentCard(props) {
   return (
-    <div className="card">
+    <div className="card theComments">
       {/* <div className="img-container">
         <img alt={props.name} src={props.image} />
       </div> */}

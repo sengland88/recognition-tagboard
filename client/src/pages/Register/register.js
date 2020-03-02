@@ -55,7 +55,9 @@ class Register extends Component {
         this.setState({ validPO: value !== "" });
         break;
       case "department":
-        this.setState({ validDP: value !== "" && value !== this.state.departmentselector });
+        this.setState({
+          validDP: value !== "" && value !== this.state.departmentselector
+        });
         break;
       case "username":
         if (value.length > 7) {
@@ -91,14 +93,14 @@ class Register extends Component {
   };
 
   register = event => {
-    event.preventDefault(); 
-    
-
+    event.preventDefault();
     API.register({
       firstname: this.state.firstname,
       lastname: this.state.lastname,
       position: this.state.position,
-      department_id: this.state.departments.filter(department => department.name === this.state.department)[0],
+      department_id: this.state.departments.filter(
+        department => department.name === this.state.department
+      )[0],
       username: this.state.username.toLowerCase(),
       email: this.state.email,
       password: this.state.password

@@ -39,7 +39,7 @@ class Tagboard extends Component {
             <Link to="/comment">Add Comment</Link>
           </button>
           <Row>
-              {this.state.comments.map(comment => (
+              {this.state.comments.reverse().map(comment => (
                 <CommentCard 
                 comment={comment.comment}
                 submitter={`${comment.submitter_id.firstname} ${comment.submitter_id.lastname}`}

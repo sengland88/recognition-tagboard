@@ -46,6 +46,10 @@ export default {
     console.log("getting employees")
     return axios.get("/api/loademployees");
   },
+  getEmployeeInfo: function (id) {
+    console.log("getting employee info")
+    return axios.get("/api/employeeinfo");
+  },
 
   // Put Routes
   updateUserInfo: function (data) {
@@ -54,6 +58,10 @@ export default {
   },
 
   //Destroy Routes
+  deleteComment: function (data) {
+    console.log("delete connecting")
+    return axios.delete("/api/deletecomment", data);
+  },
   
 
 };

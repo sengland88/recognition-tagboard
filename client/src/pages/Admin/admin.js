@@ -15,10 +15,12 @@ import {
 } from "../../components/Form";
 import API from "../../utils/API";
 import "./admin.css";
-import DropdownMenu from "react-bootstrap/DropdownMenu";
+import { Button } from "react-bootstrap";
 
 class Admin extends Component {
   state = {
+    employee_id: "",
+    employeeSelector: "Choose Employee",
     employees: [],
     name: "",
     position: "",
@@ -33,7 +35,10 @@ class Admin extends Component {
   getEmployees = () => {
     API.getEmployees()
       .then(res => {
-        console.log(res);
+        res.data.unshift({
+          _id: "selectedID",
+          name: this.state.employeeSelector
+        });
         this.setState({ employees: res.data });
       })
       .catch(err => {
@@ -41,7 +46,42 @@ class Admin extends Component {
       });
   };
 
-  admin = event => {
+  deleteComment = event => {
+    event.preventDefault();
+    console.log("this works");
+    API.deleteComment()
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  getInfo = () => {
+    console.log(this.state.employee_id)
+
+
+    API.getEmployeeInfo({
+      id: this.state.employee_id
+    })
+      .then(res => {
+        if (res.data.message) {
+          // this authorize will need to be changed to false
+          this.setState({ authorized: false, admin: false });
+        } else {
+          console.log(res);
+          this.setState({});
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        // this authorize and admin will need to be changed to false
+        this.setState({ authorized: false, admin: false });
+      });
+  };
+
+  userUpdate = event => {
     event.preventDefault();
     API.admin({
       name: this.state.name,
@@ -53,11 +93,17 @@ class Admin extends Component {
     });
   };
 
+  userDelete = event => {
+    event.preventDefault();
+    console.log("this works");
+  };
+
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
       [name]: value
     });
+    console.log(this.state.employee_id);
   };
 
   render() {
@@ -66,13 +112,26 @@ class Admin extends Component {
         <Container>
           <Title>This is the Admin</Title>
           <Row>
+
             <FormGroup>
-              <Dropdown>
+              <Dropdown
+                name="employee_id"
+                value={this.state.employee_id}
+                onChange={this.handleInputChange}
+              >
                 {this.state.employees.map(employee => (
-                  <Option text={`${employee.firstname} ${employee.lastname}`} value={employee._id}></Option>
+                  <Option
+                    text={`${employee.firstname} ${employee.lastname}`}
+                    value={employee._id}
+                    key={employee._id}
+                  ></Option>
                 ))}
               </Dropdown>
             </FormGroup>
+            <Button onClick={this.getInfo}>Fetch User Info</Button>
+
+            <hr></hr>
+
           </Row>
           <Row>
             <Col size="sm">
@@ -110,6 +169,17 @@ class Admin extends Component {
               </FormGroup>
 
               <FormGroup>
+                <Label text="email" />
+                <Input
+                  name="email"
+                  value={this.state.email}
+                  onChange={this.handleInputChange}
+                  // placeholder="at least 8 characters"
+                  type="text"
+                />
+              </FormGroup>
+
+              <FormGroup>
                 <Label text="admin" />
                 <Input
                   name="admin"
@@ -121,8 +191,13 @@ class Admin extends Component {
               </FormGroup>
 
               <FormBtn
-                text="Submit"
-                onClick={this.admin}
+                text="Update"
+                onClick={this.userUpdate}
+                classes="btn-primary"
+              />
+              <FormBtn
+                text="Delete"
+                onClick={this.userDelete}
                 classes="btn-primary"
               />
             </Col>
