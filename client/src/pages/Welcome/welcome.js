@@ -53,10 +53,6 @@ class Welcome extends Component {
           <Title>this is the welcome page</Title>
           <Row>
             <Col size="sm-3">
-              <div>
-                <p>Employee's Photo</p>
-                {/* <img src={props.imgOne} class="d-block w-100 img-fluid" alt="Responsive image"/> */}
-              </div>
               <h4>Name</h4>
               <p>
                 {this.state.firstname} {this.state.lastname}
@@ -65,15 +61,12 @@ class Welcome extends Component {
               <p>{this.state.position}</p>
               <h4>Department</h4>
               <p>{this.state.department}</p>
-              {/* <h4>Start Date</h4>
-              <p>Employees' Start Date</p> */}
               <Link to="/update">Update</Link>
             </Col>
-            <Col size="sm-7">
+            <Col size="sm">
               <p>Welcome, {this.state.firstname}!</p>
-              <p>This month, we're featuring *insert department here*</p>
+              <p>This is Valencia College's Organizational Development and Human Resources' (ODHR) Recognition platform. Here, you will be able to submit comments for the departments within ODHR. Your comments will populate on the tagboard for all of ODHR to see.</p>
               <p>To submit a submit a recognition, <Link to="/comment">click here.</Link></p>
-              <p>To submit a nomination for a colleague, click here.</p>
             </Col>
           </Row>
           <Row>

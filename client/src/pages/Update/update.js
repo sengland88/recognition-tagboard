@@ -154,7 +154,7 @@ class Update extends Component {
   update = event => {
     console.log("button works");
     event.preventDefault();
-    API.updateUserInfo({
+    API.updateMyInfo({
       firstname: this.state.firstname,
       lastname: this.state.lastname,
       position: this.state.position,

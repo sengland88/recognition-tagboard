@@ -19,7 +19,7 @@ export function Dropdown({ type, classes, placeholder, rows, children, value, ..
 }
 
 export function Option({ text, value }) {
-  return <option value={value}> {text} </option>;
+  return <option  value={value}> {text} </option>;
 }
 
 export function Label({ text }) {

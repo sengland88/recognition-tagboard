@@ -19,10 +19,12 @@ import { Button } from "react-bootstrap";
 
 class Admin extends Component {
   state = {
+    message: "Update Info Here",
     employee_id: "",
-    employeeSelector: "Choose Employee",
+    departments: [],
     employees: [],
-    name: "",
+    firstname: "",
+    lastname: "",
     position: "",
     department: "",
     admin: ""
@@ -30,14 +32,31 @@ class Admin extends Component {
 
   componentDidMount() {
     this.getEmployees();
+    this.getDepartments();
   }
+
+  getDepartments = () => {
+    API.getDepartments()
+      .then(res => {
+        console.log(res.data);
+        res.data.unshift({
+          _id: "selectedID",
+          name: this.state.departmentselector
+        });
+        this.setState({ departments: res.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   getEmployees = () => {
     API.getEmployees()
       .then(res => {
         res.data.unshift({
           _id: "selectedID",
-          name: this.state.employeeSelector
+          firstname: "Choose",
+          lastname: "Employee"
         });
         this.setState({ employees: res.data });
       })
@@ -58,20 +77,22 @@ class Admin extends Component {
       });
   };
 
-  getInfo = () => {
-    console.log(this.state.employee_id)
-
-
-    API.getEmployeeInfo({
-      id: this.state.employee_id
-    })
+  getEmployeeInfo = id => {
+    API.getEmployeeInfo(id)
       .then(res => {
         if (res.data.message) {
           // this authorize will need to be changed to false
           this.setState({ authorized: false, admin: false });
         } else {
           console.log(res);
-          this.setState({});
+          this.setState({
+            employee_id: res.data._id,
+            firstname: res.data.firstname,
+            lastname: res.data.lastname,
+            position: res.data.position,
+            email: res.data.email,
+            admin: res.data.admin
+          });
         }
       })
       .catch(err => {
@@ -81,21 +102,59 @@ class Admin extends Component {
       });
   };
 
-  userUpdate = event => {
+  updateUser = event => {
+    console.log("button works");
     event.preventDefault();
-    API.admin({
-      name: this.state.name,
+    API.updateUserInfo({
+      _id: this.state.employee_id,
+      firstname: this.state.firstname,
+      lastname: this.state.lastname,
       position: this.state.position,
-      department: this.state.department,
+      department_id: this.state.departments.filter(
+        department => department.name === this.state.department
+      )[0],
+      email: this.state.email,
       admin: this.state.admin
-    }).then(res => {
-      console.log("admin is done");
-    });
+    })
+      .then(res => {
+        if (res.data.message) {
+          console.log("didn't work");
+          this.setState({ message: res.data.message });
+        } else {
+          console.log("information added");
+          this.setState({ message: "Your information has been updated" });
+        }
+      })
+      .catch(err => {
+        console.log("an error");
+        console.log(err);
+        this.setState({ message: "A server error has occurred." });
+      });
+
+    this.setState({});
   };
 
   userDelete = event => {
     event.preventDefault();
     console.log("this works");
+    API.deleteUser(
+this.state.employee_id)
+      .then(res => {
+        if (res.data.message) {
+          console.log("didn't work");
+          this.setState({ message: res.data.message });
+        } else {
+          console.log("user delete");
+          this.setState({ message: "User has been delete" });
+        }
+      })
+      .catch(err => {
+        console.log("an error");
+        console.log(err);
+        this.setState({ message: "A server error has occurred." });
+      });
+
+    this.setState({});
   };
 
   handleInputChange = event => {
@@ -103,7 +162,9 @@ class Admin extends Component {
     this.setState({
       [name]: value
     });
-    console.log(this.state.employee_id);
+    if (name === "admin" && value !== "") this.setState({ admin: value });
+    if (name === "employee_id" && value !== "selectedID")
+      this.getEmployeeInfo(value);
   };
 
   render() {
@@ -111,8 +172,8 @@ class Admin extends Component {
       <div>
         <Container>
           <Title>This is the Admin</Title>
+          <Title>{this.state.message}</Title>
           <Row>
-
             <FormGroup>
               <Dropdown
                 name="employee_id"
@@ -128,44 +189,71 @@ class Admin extends Component {
                 ))}
               </Dropdown>
             </FormGroup>
-            <Button onClick={this.getInfo}>Fetch User Info</Button>
 
             <hr></hr>
-
           </Row>
           <Row>
             <Col size="sm">
               <FormGroup>
-                <Label text="name" />
-                <Input
-                  name="name"
-                  value={this.state.name}
-                  onChange={this.handleInputChange}
-                  // placeholder="at least 8 characters"
-                  type="text"
-                />
+                <Row>
+                  <Col size="sm-6">
+                    <Label text="First Name" />
+                    <Input
+                      name="firstname"
+                      value={this.state.firstname}
+                      onChange={this.handleInputChange}
+                      type="text"
+                    />
+                    <Small
+                      text={this.state.validFN ? "" : "No first name entered"}
+                    />
+                  </Col>
+                  <Col size="sm-6">
+                    <Label text="Last Name" />
+                    <Input
+                      name="lastname"
+                      value={this.state.lastname}
+                      onChange={this.handleInputChange}
+                      type="text"
+                    />
+                    <Small
+                      text={this.state.validLN ? "" : "No last name entered"}
+                    />
+                  </Col>
+                </Row>
               </FormGroup>
 
               <FormGroup>
-                <Label text="position" />
-                <Input
-                  name="position"
-                  value={this.state.position}
-                  onChange={this.handleInputChange}
-                  // placeholder="at least 8 characters"
-                  type="text"
-                />
-              </FormGroup>
-
-              <FormGroup>
-                <Label text="department" />
-                <Input
-                  name="department"
-                  value={this.state.department}
-                  onChange={this.handleInputChange}
-                  // placeholder="at least 8 characters"
-                  type="text"
-                />
+                <Row>
+                  <Col size="sm-6">
+                    <Label text="Position" />
+                    <Input
+                      name="position"
+                      value={this.state.position}
+                      onChange={this.handleInputChange}
+                      type="text"
+                    />
+                    <Small
+                      text={this.state.validPO ? "" : "No position entered"}
+                    />
+                  </Col>
+                  <Col size="sm-6">
+                    <Label text="Department" />
+                    <Dropdown
+                      name="department"
+                      value={this.state.department}
+                      onChange={this.handleInputChange}
+                    >
+                      {this.state.departments.map(department => (
+                        <Option text={department.name} key={department._id} />
+                      ))}
+                      ;
+                    </Dropdown>
+                    <Small
+                      text={this.state.validDP ? "" : "No department chosen"}
+                    />
+                  </Col>
+                </Row>
               </FormGroup>
 
               <FormGroup>
@@ -181,18 +269,20 @@ class Admin extends Component {
 
               <FormGroup>
                 <Label text="admin" />
-                <Input
+                <Dropdown
                   name="admin"
                   value={this.state.admin}
                   onChange={this.handleInputChange}
-                  // placeholder="at least 8 characters"
-                  type="text"
-                />
+                >
+                  <Option text="Choose Admin Rights..."></Option>
+                  <Option value="false" text="False" />
+                  <Option value="true" text="True" />
+                </Dropdown>
               </FormGroup>
 
               <FormBtn
                 text="Update"
-                onClick={this.userUpdate}
+                onClick={this.updateUser}
                 classes="btn-primary"
               />
               <FormBtn

@@ -134,18 +134,18 @@ router.get("/api/userinfo", isAuthenticated, function(req, res) {
     });
 });
 
-router.get("/api/employeeinfo", isAuthenticated, function(req, res) {
+router.get("/api/employeeinfo/:id", isAuthenticated, function(req, res) {
   console.log("employee info connected");
-  console.log(req.body);
-  // db.User.find({ })
-  //   .populate("department_id")
-  //   .then(result => {
-  //     console.log(result);
-  //     res.json(result);
-  //   })
-  //   .catch(err => {
-  //     res.json(err);
-  //   });
+  console.log(req);
+  db.User.findOne({ _id: req.params.id })
+    .populate("department_id")
+    .then(result => {
+      console.log(result);
+      res.json(result);
+    })
+    .catch(err => {
+      res.json(err);
+    });
 });
 
 router.get("/api/user", function(req, res) {
@@ -190,10 +190,23 @@ router.put("/api/update", isAuthenticated, function(req, res) {
   console.log("update connected");
   console.log(req.body);
 
-  db.User.findByIdAndUpdate(
-    { _id: req.user._id }, req.body, { new: true })
+  db.User.findByIdAndUpdate({ _id: req.user._id }, req.body, { new: true })
     .then(function(data) {
-      console.log(data)
+      console.log(data);
+      res.json(data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+});
+
+router.put("/api/userupdate", isAuthenticated, function(req, res) {
+  console.log("update connected");
+  console.log(req.body);
+
+  db.User.findByIdAndUpdate({ _id: req.body._id }, req.body, { new: true })
+    .then(function(data) {
+      console.log(data);
       res.json(data);
     })
     .catch(function(err) {
@@ -221,6 +234,41 @@ router.delete("/api/deletecomment", function(req, res) {
       }
     }
   );
+});
+
+router.delete("/api/deleteuser/:id", isAuthenticated, function(req, res) {
+  console.log("trying to delete a user");
+  console.log(req);
+
+  db.User.deleteOne(
+    {
+      _id: req.params.id
+    },
+    function(error, removed) {
+      if (error) {
+        console.log(error);
+        res.send(error);
+      } else {
+        console.log(removed);
+        res.send(removed);
+      }
+    }
+  );
+
+  // db.Comment.remove(
+  //   {
+  //     submitter_id: req.params.id
+  //   },
+  //   function(error, removed) {
+  //     if (error) {
+  //       console.log(error);
+  //       res.send(error);
+  //     } else {
+  //       console.log(removed);
+  //       res.send(removed);
+  //     }
+  //   }
+  // );
 });
 
 module.exports = router;

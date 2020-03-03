@@ -12,8 +12,9 @@ function Nav() {
         </button>
         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <a className="dropdown-item" href="/welcome">Welcome</a>
-          <a className="dropdown-item" href="/tagboard">Tagboard</a>
-          <a className="dropdown-item" href="/search">Search</a>
+          <a className="dropdown-item" href="/tagboard">View tagboard</a>
+          <a className="dropdown-item" href="/comment">Create Comment</a>
+          <a className="dropdown-item" href="/update">Update Info</a>
           <a className="dropdown-item" href="/admin">Admin</a>
         </div>
       </div>   

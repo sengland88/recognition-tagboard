@@ -1,67 +1,76 @@
 import axios from "axios";
 
 export default {
-  //Post Request
-  register: function (user) {
+  //Post Request ++++++++++++++++++++++++++++
+  register: function(user) {
     return axios.post("/api/register", user);
   },
-  login: function (user) {
+  login: function(user) {
     return axios.post("/api/login", user);
   },
-  admin: function (data) {
-    console.log("admin connecting")
+  admin: function(data) {
+    console.log("admin connecting");
     return axios.post("/api/admin", data);
   },
-  imageUpload: function (data) {
-    console.log("image connecting")
+  imageUpload: function(data) {
+    console.log("image connecting");
     return axios.post("/api/imageupload", data);
   },
-  submitComment: function (data) {
-    console.log("comment connecting")
+  submitComment: function(data) {
+    console.log("comment connecting");
     return axios.post("/api/comment", data);
   },
 
-  // Get Requests
-  getDepartments: function () {
+  // Get Requests ++++++++++++++++++++++++++++++++++++
+  getDepartments: function() {
     return axios.get("/api/departments");
   },
-  isAuthorized: function () {
+  isAuthorized: function() {
     return axios.get("/api/authorized");
   },
-  logout: function () {
+  logout: function() {
     return axios.get("/api/logout");
   },
-  availableUN: function (username) {
+  availableUN: function(username) {
     return axios.get("/api/user/?username=" + username);
   },
-  getUserInfo: function (data) {
-    console.log("welcome connecting")
+  getUserInfo: function(data) {
+    console.log("welcome connecting");
     return axios.get("/api/userinfo");
   },
-  getComments: function (data) {
-    console.log("load comments connecting")
+  getComments: function(data) {
+    console.log("load comments connecting");
     return axios.get("/api/loadcomments");
   },
-  getEmployees: function () {
-    console.log("getting employees")
+  getEmployees: function() {
+    console.log("getting employees");
     return axios.get("/api/loademployees");
   },
-  getEmployeeInfo: function (id) {
-    console.log("getting employee info")
-    return axios.get("/api/employeeinfo");
+  getEmployeeInfo: function(id) {
+    console.log("getting employee info");
+    console.log(id);
+    return axios.get("/api/employeeinfo/" + id);
   },
 
-  // Put Routes
-  updateUserInfo: function (data) {
-    console.log("update connecting")
+  // Put Routes +++++++++++++++++++++++++++++++++++
+  updateMyInfo: function(data) {
+    console.log("update connecting");
     return axios.put("/api/update", data);
   },
 
-  //Destroy Routes
-  deleteComment: function (data) {
-    console.log("delete connecting")
-    return axios.delete("/api/deletecomment", data);
+  updateUserInfo: function(data) {
+    console.log("update connecting");
+    return axios.put("/api/userupdate", data);
   },
-  
 
+  //Destroy Routes +++++++++++++++++++++++++++++++++
+  deleteComment: function(data) {
+    console.log("delete connecting");
+    return axios.delete("/api/deletecomment/", data);
+  },
+
+  deleteUser: function(id) {
+    console.log("delete connecting");
+    return axios.delete("/api/deleteuser/" + id);
+  }
 };
