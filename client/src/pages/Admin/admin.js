@@ -8,11 +8,19 @@ import {
   FormGroup,
   Input,
   Label,
+  TextArea,
   Small,
   FormBtn,
   Dropdown,
   Option
 } from "../../components/Form";
+import Table, {
+  THead,
+  THeading,
+  TBody,
+  TRow,
+  TData
+} from "../../components/Table";
 import API from "../../utils/API";
 import "./admin.css";
 import { Button } from "react-bootstrap";
@@ -22,6 +30,7 @@ class Admin extends Component {
     message: "Update Info Here",
     employee_id: "",
     departments: [],
+    comments: [],
     employees: [],
     firstname: "",
     lastname: "",
@@ -33,6 +42,7 @@ class Admin extends Component {
   componentDidMount() {
     this.getEmployees();
     this.getDepartments();
+    this.getComments();
   }
 
   getDepartments = () => {
@@ -65,16 +75,38 @@ class Admin extends Component {
       });
   };
 
-  deleteComment = event => {
-    event.preventDefault();
-    console.log("this works");
-    API.deleteComment()
+  getComments = () => {
+    API.getComments()
       .then(res => {
         console.log(res);
+        this.setState({ comments: res.data });
       })
       .catch(err => {
         console.log(err);
       });
+  };
+
+  updateComment = id => {
+    console.log(`Update: This is the id: ${id}`);
+    console.log(this.state[`comment_${id}}`]);
+    // API.deleteComment()
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+  };
+
+  deleteComment = id => {
+    console.log(`Delete: This is the id: ${id}`);
+    // API.deleteComment()
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   };
 
   getEmployeeInfo = id => {
@@ -137,8 +169,7 @@ class Admin extends Component {
   userDelete = event => {
     event.preventDefault();
     console.log("this works");
-    API.deleteUser(
-this.state.employee_id)
+    API.deleteUser(this.state.employee_id)
       .then(res => {
         if (res.data.message) {
           console.log("didn't work");
@@ -165,6 +196,7 @@ this.state.employee_id)
     if (name === "admin" && value !== "") this.setState({ admin: value });
     if (name === "employee_id" && value !== "selectedID")
       this.getEmployeeInfo(value);
+    console.log(this.state);
   };
 
   render() {
@@ -291,6 +323,55 @@ this.state.employee_id)
                 classes="btn-primary"
               />
             </Col>
+          </Row>
+          <Row>
+            <Table
+              comments={this.state.comments}
+              update={this.updateComment}
+              delete={this.deleteComment}
+            >
+              <THead>
+                <TRow>
+                  <THeading>Submitter</THeading>
+                  <THeading>Receiver</THeading>
+                  <THeading>Comment</THeading>
+                  <THeading>Update</THeading>
+                  <THeading>Delete</THeading>
+                </TRow>
+              </THead>
+              <TBody>
+                {this.state.comments.map(comment => (
+                  <TRow>
+                    <TData>{comment.submitter_id.firstname}</TData>
+                    <TData>{comment.department_id}</TData>
+                    <TData>
+                      <TextArea
+                        name={`comment_${comment._id}}`}
+                        value={this.state[`comment_${comment._id}}`]}
+                        onChange={this.handleInputChange}
+                      >
+                        {comment.comment}
+                      </TextArea>
+                    </TData>
+                    <TData>
+                      <Button
+                        disabled={!this.state[`comment_${comment._id}}`]}
+                        onClick={() => this.updateComment(comment._id)}
+                      >
+                        Update
+                      </Button>
+                    </TData>
+                    <TData>
+                      <Button 
+                      variant="danger"
+                      onClick={() => this.deleteComment(comment._id)}>
+                        Delete
+                      </Button>
+                    </TData>
+                  </TRow>
+                ))}
+              </TBody>
+            </Table>
           </Row>
 
           <Link to="/welcome">Welcome</Link>

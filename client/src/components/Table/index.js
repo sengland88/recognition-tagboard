@@ -1,42 +1,26 @@
 import React, { Children } from "react";
 import "./style.css";
 
-export function Table({ props }) {
-  return (
-    <div>
-      <table className="table"></table>
-    </div>
-  );
+export default function Table(props) {
+  return <table className="table">{props.children}</table>;
 }
 
-export function TableHead({ props }) {
-  return (
-    <div>
-      <thead></thead>
-    </div>
-  );
+export function THead(props) {
+  return <thead>{props.children}</thead>;
 }
 
-export function TableRow({ props }) {
-  return (
-    <div>
-      <tr></tr>
-    </div>
-  );
+export function THeading(props) {
+  return <th>{props.children}</th>;
 }
 
-export function TableHeading({ props, heading }) {
-  return (
-    <div>
-      <th></th>
-    </div>
-  );
+export function TBody(props) {
+  return <tbody>{props.children}</tbody>;
 }
 
-export function TableBody({ props }) {
-  return (
-    <div>
-      <th>{Children}</th>
-    </div>
-  );
+export function TRow(props) {
+  return <tr>{props.children}</tr>;
+}
+
+export function TData(props) {
+return <td>{props.children}</td>;
 }

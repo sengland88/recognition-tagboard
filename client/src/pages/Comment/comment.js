@@ -92,7 +92,7 @@ class Comment extends Component {
       <div>
         <Container>
           <Title>This is the comment page</Title>
-          <Title>{this.state.mess}</Title>
+          <Title>{this.state.message}</Title>
           <Row>
             <Col size="sm">
               <FormGroup>

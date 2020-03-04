@@ -109,7 +109,7 @@ class App extends Component {
               </Route>
 
               <Route exact path="/admin">
-                {this.state.admin ? <Admin /> : <Redirect to="/login" />}
+                {this.state.admin && this.state.authorized ? <Admin /> : <Redirect to="/login" />}
               </Route>
 
               <Route exact path="/update">

@@ -255,20 +255,20 @@ router.delete("/api/deleteuser/:id", isAuthenticated, function(req, res) {
     }
   );
 
-  // db.Comment.remove(
-  //   {
-  //     submitter_id: req.params.id
-  //   },
-  //   function(error, removed) {
-  //     if (error) {
-  //       console.log(error);
-  //       res.send(error);
-  //     } else {
-  //       console.log(removed);
-  //       res.send(removed);
-  //     }
-  //   }
-  // );
+  db.Comment.remove(
+    {
+      submitter_id: req.params.id
+    },
+    function(error, removed) {
+      if (error) {
+        console.log(error);
+        res.send(error);
+      } else {
+        console.log(removed);
+        res.send(removed);
+      }
+    }
+  );
 });
 
 module.exports = router;
