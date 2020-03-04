@@ -79,7 +79,8 @@ class Admin extends Component {
     API.getComments()
       .then(res => {
         console.log(res);
-        this.setState({ comments: res.data });
+        let comments = res.data.reverse()
+        this.setState({ comments: comments });
       })
       .catch(err => {
         console.log(err);
@@ -89,24 +90,27 @@ class Admin extends Component {
   updateComment = id => {
     console.log(`Update: This is the id: ${id}`);
     console.log(this.state[`comment_${id}}`]);
-    // API.deleteComment()
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    API.updateComment({
+      comment_id: id,
+      comment: this.state[`comment_${id}}`]
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   deleteComment = id => {
     console.log(`Delete: This is the id: ${id}`);
-    // API.deleteComment()
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    API.deleteComment(id)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   getEmployeeInfo = id => {

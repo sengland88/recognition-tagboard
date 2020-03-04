@@ -3,9 +3,14 @@ const db = require("../models");
 
 // This file empties the Books collection and inserts the books below
 
+// mongoose.connect(
+//   process.env.MONGODB_URI ||
+//   "mongodb://localhost/ValenciaCollege"
+// );
+
 mongoose.connect(
   process.env.MONGODB_URI ||
-  "mongodb://localhost/ValenciaCollege"
+  "mongodb://heroku_cxq1dqs3:j01l1onkj8jsvocjveasp0qg56@ds125479.mlab.com:25479/heroku_cxq1dqs3"
 );
 
 const departmentSeed = [

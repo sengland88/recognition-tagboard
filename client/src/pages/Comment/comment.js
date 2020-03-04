@@ -67,6 +67,7 @@ class Comment extends Component {
       comment: ""
     });
     
+    
   };
 
   handleInputChange = event => {

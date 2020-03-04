@@ -51,6 +51,11 @@ export default {
     console.log(id);
     return axios.get("/api/employeeinfo/" + id);
   },
+  getDepartmentComments: function(id) {
+    console.log("getting department comments");
+    console.log(id);
+    return axios.get("/api/departmentcomments/" + id);
+  },
 
   // Put Routes +++++++++++++++++++++++++++++++++++
   updateMyInfo: function(data) {
@@ -63,10 +68,15 @@ export default {
     return axios.put("/api/userupdate", data);
   },
 
+  updateComment: function(data) {
+    console.log("update connecting");
+    return axios.put("/api/updatecomment", data);
+  },
+
   //Destroy Routes +++++++++++++++++++++++++++++++++
-  deleteComment: function(data) {
+  deleteComment: function(id) {
     console.log("delete connecting");
-    return axios.delete("/api/deletecomment/", data);
+    return axios.delete("/api/deletecomment/" + id);
   },
 
   deleteUser: function(id) {

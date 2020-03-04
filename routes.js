@@ -148,6 +148,20 @@ router.get("/api/employeeinfo/:id", isAuthenticated, function(req, res) {
     });
 });
 
+router.get("/api/departmentcomments/:id", isAuthenticated, function(req, res) {
+  console.log("department comment connected");
+  // console.log(req);
+  db.Comment.find({ department_id: req.params.id })
+    .populate("department_id")
+    .then(result => {
+      console.log(result);
+      res.json(result);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
 router.get("/api/user", function(req, res) {
   console.log("available username");
   if (req.query.username) {
@@ -214,15 +228,30 @@ router.put("/api/userupdate", isAuthenticated, function(req, res) {
     });
 });
 
+router.put("/api/updatecomment", isAuthenticated, function(req, res) {
+  console.log("update comment connected");
+  console.log(req.body);
+
+  db.Comment.findByIdAndUpdate({ _id: req.body.comment_id }, req.body, { new: true })
+    .then(function(data) {
+      console.log(data);
+      res.json(data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+});
+
 // Delete Routes+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 // Delete One from the DB
-router.delete("/api/deletecomment", function(req, res) {
+router.delete("/api/deletecomment/:id", isAuthenticated, function(req, res) {
   // Remove a note using the objectID
   console.log("trying to delete a comment");
+  console.log(req)
   db.Comment.remove(
     {
-      _id: "5e532ee1ef6d5b5a047ec5ad"
+      _id: req.params.id
     },
     function(error, removed) {
       if (error) {
