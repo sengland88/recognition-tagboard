@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Container from "../../components/Container";
 import Title from "../../components/Title";
 import Row from "../../components/Row";
@@ -60,6 +60,8 @@ class Comment extends Component {
     .catch(err => {
       console.log(err)
     })
+    
+    this.props.history.push('/tagboard');
 
     this.setState({
       department: "",
@@ -107,10 +109,7 @@ class Comment extends Component {
                     <Option text={department.name} key={department._id} value={department._id}/>
                   ))}
                   ;
-                </Dropdown>
-                {/* <Small
-                  text={this.state.validDP ? "" : "No department chosen"}
-                /> */}
+                </Dropdown> 
               </FormGroup>
 
               <FormGroup>
@@ -145,4 +144,4 @@ class Comment extends Component {
   }
 }
 
-export default Comment;
+export default withRouter(Comment) ;

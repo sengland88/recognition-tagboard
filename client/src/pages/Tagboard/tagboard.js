@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-// import {BrowserRouter as Router, Route} from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Container, Row, Col } from "../../components/Grid";
 import Title from "../../components/Title";
 import { FormBtn } from "../../components/Form";
@@ -63,4 +62,4 @@ class Tagboard extends Component {
   }
 }
 
-export default Tagboard;
+export default withRouter(Tagboard);
