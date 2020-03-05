@@ -30,7 +30,7 @@ class Tagboard extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container theContainer">
         <Container>
           <Title>This is the tagboard</Title>
           <Title>{this.state.message}</Title>
@@ -41,6 +41,7 @@ class Tagboard extends Component {
               {this.state.comments.reverse().map(comment => (
                 <CommentCard 
                 comment={comment.comment}
+                department={comment.department_id.name}
                 submitter={`${comment.submitter_id.firstname} ${comment.submitter_id.lastname}`}
                 thedate={comment.created}
                 />

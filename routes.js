@@ -179,6 +179,7 @@ router.get("/api/loadcomments", isAuthenticated, function(req, res) {
   console.log("load comments connected");
   db.Comment.find({})
     .populate("submitter_id")
+    .populate("department_id")
     .then(result => {
       console.log(result);
       res.json(result);

@@ -17,7 +17,7 @@ class Public extends Component {
         imgTwo="./imgs/carousel_2.jpg"
         imgThree="./imgs/carousel_3.jpg"
         />
-        <Container>
+        <div>
           <Row>
             <Link to="/login">Already registered? Click here.</Link>
             <Link to="/tagboard">Click here for tagboard.</Link>
@@ -28,7 +28,7 @@ class Public extends Component {
             <Link to="/update">Update</Link>
             <Link to="/comment">Comment</Link>
           </Row>
-        </Container>
+        </div>
 
       </div>
     );

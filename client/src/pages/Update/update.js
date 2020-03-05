@@ -183,13 +183,10 @@ class Update extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div>
         <Container>
           <Title>this is the update page</Title>
           <Title>{this.state.message}</Title>
-          {/* <Input name="image" type="file" onChange={this.fileSelectedHandler} />
-          <Button onClick={this.fileUploadHandler}>Upload</Button>
-          <hr></hr> */}
           <Row>
             <Col size="sm">
               <FormGroup>

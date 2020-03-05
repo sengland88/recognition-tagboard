@@ -328,6 +328,7 @@ class Admin extends Component {
               />
             </Col>
           </Row>
+
           <Row>
             <Table
               comments={this.state.comments}

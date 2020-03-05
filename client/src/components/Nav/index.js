@@ -4,9 +4,9 @@ import "./style.css";
 
 function Nav() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark" id="navi">
-      <img src="./imgs/logo.jpg" className="theLogo" />
-      <div className="justify-content-end">
+    <nav className="navbar navbar-expand-lg navbar-dark justify-content-between" id="navi">
+      <img className="justify-content-start" src="./imgs/logo.jpg" className="theLogo" />
+      <div>
         <ul className="navbar-nav">
           <li className="nav-item">
             <Link
