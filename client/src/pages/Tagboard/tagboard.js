@@ -39,7 +39,7 @@ class Tagboard extends Component {
           </button>
           <Row>
               {this.state.comments.reverse().map(comment => (
-                <CommentCard 
+                <CommentCard
                 comment={comment.comment}
                 department={comment.department_id.name}
                 submitter={`${comment.submitter_id.firstname} ${comment.submitter_id.lastname}`}
@@ -47,7 +47,7 @@ class Tagboard extends Component {
                 />
               ))}
           </Row>
-          <Row>
+          {/* <Row>
             <Col size="sm">
               <Link to="/welcome">Welcome</Link>
               <Link to="/tagboard">Tagboard</Link>
@@ -56,7 +56,7 @@ class Tagboard extends Component {
               <Link to="/update">Update</Link>
               <Link to="/comment">Comment</Link>
             </Col>
-          </Row>
+          </Row> */}
         </Container>
       </div>
     );
