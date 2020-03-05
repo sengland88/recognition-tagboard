@@ -69,16 +69,6 @@ class Welcome extends Component {
               <p>To submit a submit a recognition, <Link to="/comment">click here.</Link></p>
             </Col>
           </Row>
-          <Row>
-            <Col size="sm">
-              <Link to="/welcome">Welcome</Link>
-              <Link to="/tagboard">Tagboard</Link>
-              <Link to="/search">Search</Link>
-              <Link to="/admin">Admin</Link>
-              <Link to="/update">Update</Link>
-              <Link to="/comment">Comment</Link>
-            </Col>
-          </Row>
         </Container>
       </div>
     );

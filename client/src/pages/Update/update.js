@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Container from "../../components/Container";
 import Title from "../../components/Title";
 import Row from "../../components/Row";
@@ -302,4 +302,4 @@ class Update extends Component {
   }
 }
 
-export default Update;
+export default withRouter(Update);

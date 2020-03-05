@@ -17,14 +17,15 @@ import Col from "../../components/Col";
 import API from "../../utils/API";
 import CommentCard from "../../components/CommentCard/commentcard";
 import "./search.css";
+import moment from "moment"
 
 class Search extends Component {
   state = {
-    message: "test message",
+    message: "",
     departmentselector: "Choose Department...",
     department_id: "",
     departments: [],
-    comments: [],
+    comments: []
   };
 
   componentDidMount() {
@@ -50,7 +51,9 @@ class Search extends Component {
     API.getDepartmentComments(id)
       .then(res => {
         console.log(res);
-        this.setState({ comments: res.data });
+        (Array.isArray(res.data) && res.data.length > 0)
+          ? this.setState({ comments: res.data, message: "Comments Found" })
+          : this.setState({ comments: [], message: "No Comments Found" });
       })
       .catch(err => {
         console.log(err);
@@ -63,10 +66,10 @@ class Search extends Component {
       [name]: value
     });
     if (name === "department_id" && value === "selectedID") {
-      this.setState({comments: []})
+      this.setState({ comments: [] });
     } else {
       if (name === "department_id" && value !== "selectedID")
-      this.getDepartmentComments(value);
+        this.getDepartmentComments(value);
     }
   };
 
@@ -74,40 +77,32 @@ class Search extends Component {
     return (
       <div>
         <Container>
-          <Title>This is the search page</Title>
-              <Label text="Department" />
-              <Dropdown
-                name="department_id"
-                value={this.state.department_id}
-                onChange={this.handleInputChange}
-              >
-                {this.state.departments.map(department => (
-                  <Option
-                    text={department.name}
-                    key={department._id}
-                    value={department._id}
-                  />
-                ))}
-                ;
-              </Dropdown>
+          <Title>Search for Comments by Department</Title>
+          <Title>{this.state.message}</Title>
+          <Label text="Select a Department" />
+          <Dropdown
+            name="department_id"
+            value={this.state.department_id}
+            onChange={this.handleInputChange}
+          >
+            {this.state.departments.map(department => (
+              <Option
+                text={department.name}
+                key={department._id}
+                value={department._id}
+              />
+            ))}
+            ;
+          </Dropdown>
           <Row>
             {this.state.comments.reverse().map(comment => (
-                <CommentCard 
+              <CommentCard
                 comment={comment.comment}
+                department={comment.department_id.name}
                 submitter={`${comment.submitter_id.firstname} ${comment.submitter_id.lastname}`}
                 thedate={comment.created}
-                />
-              ))}
-          </Row>
-          <Row>
-            <Col size="sm">
-              <Link to="/welcome">Welcome</Link>
-              <Link to="/tagboard">Tagboard</Link>
-              <Link to="/search">Search</Link>
-              <Link to="/admin">Admin</Link>
-              <Link to="/update">Update</Link>
-              <Link to="/comment">Comment</Link>
-            </Col>
+              />
+            ))}
           </Row>
         </Container>
       </div>

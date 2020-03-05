@@ -25,8 +25,6 @@ class Comment extends Component {
     department: "",
     department_id: "",
     comment: ""
-    // submitter: "",
-    // type: "",
   };
 
   componentDidMount() {
@@ -67,9 +65,7 @@ class Comment extends Component {
       department: "",
       department_id: "",
       comment: ""
-    });
-    
-    
+    }); 
   };
 
   handleInputChange = event => {
@@ -97,9 +93,11 @@ class Comment extends Component {
           <Title>This is the comment page</Title>
           <Title>{this.state.message}</Title>
           <Row>
-            <Col size="sm">
+            <Col size="sm" className="text-center">
+              <div className="rounded" id="commentContainer">
+              <form>
               <FormGroup>
-                <Label text="Department" />
+                <Label text="Select a Department" />
                 <Dropdown
                   name="department"
                   value={this.state.department}
@@ -113,7 +111,7 @@ class Comment extends Component {
               </FormGroup>
 
               <FormGroup>
-                <Label text="comment" />
+                <Label text="Leave a Comment" />
                 <TextArea
                   name="comment"
                   value={this.state.comment}
@@ -129,15 +127,10 @@ class Comment extends Component {
                 onClick={this.comment}
                 classes="btn-primary"
               />
+              </form>
+              </div>
             </Col>
           </Row>
-
-          <Link to="/welcome">Welcome</Link>
-          <Link to="/tagboard">Tagboard</Link>
-          <Link to="/search">Search</Link>
-          <Link to="/admin">Admin</Link>
-          <Link to="/update">Update</Link>
-          <Link to="/comment">Comment</Link>
         </Container>
       </div>
     );

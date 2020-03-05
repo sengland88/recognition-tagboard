@@ -4,6 +4,7 @@ const router = express.Router();
 const db = require("./models");
 var isAuthenticated = require("./config/middleware/isAuthenticated");
 
+
 //Post Routes++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 router.post("/api/register", function(req, res) {
   console.log("registering user");
@@ -152,6 +153,7 @@ router.get("/api/departmentcomments/:id", isAuthenticated, function(req, res) {
   console.log("department comment connected");
   // console.log(req);
   db.Comment.find({ department_id: req.params.id })
+    .populate("submitter_id")
     .populate("department_id")
     .then(result => {
       console.log(result);
@@ -233,7 +235,9 @@ router.put("/api/updatecomment", isAuthenticated, function(req, res) {
   console.log("update comment connected");
   console.log(req.body);
 
-  db.Comment.findByIdAndUpdate({ _id: req.body.comment_id }, req.body, { new: true })
+  db.Comment.findByIdAndUpdate({ _id: req.body.comment_id }, req.body, {
+    new: true
+  })
     .then(function(data) {
       console.log(data);
       res.json(data);
@@ -249,7 +253,7 @@ router.put("/api/updatecomment", isAuthenticated, function(req, res) {
 router.delete("/api/deletecomment/:id", isAuthenticated, function(req, res) {
   // Remove a note using the objectID
   console.log("trying to delete a comment");
-  console.log(req)
+  console.log(req);
   db.Comment.remove(
     {
       _id: req.params.id

@@ -128,12 +128,6 @@ class App extends Component {
                 <NoMatch />
               </Route>
             </Switch>
-
-            {/* <Route exact path="/welcome/comment">
-              <Tagboard/>
-              
-            </Route> */}
-            <Footer />
           </React.Fragment>
         ) : (
           ""
