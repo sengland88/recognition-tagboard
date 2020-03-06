@@ -63,7 +63,7 @@ class Comment extends Component {
         console.log(err);
       });   
 
-    // this.props.history.push("/tagboard");
+    this.props.history.push("/tagboard");
   };
 
   email = () => {
