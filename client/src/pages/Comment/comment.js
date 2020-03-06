@@ -24,7 +24,11 @@ class Comment extends Component {
     recognized: "",
     department: "",
     department_id: "",
-    comment: ""
+    comment: "",
+    characters: 280,
+    validCC: false,
+    validDep: false,
+    message: ""
   };
 
   componentDidMount() {
@@ -47,25 +51,53 @@ class Comment extends Component {
   };
 
   comment = () => {
-
     API.submitComment({
       department_id: this.state.department_id,
-      comment: this.state.comment      
+      comment: this.state.comment
     })
-    .then(res => {
-      console.log(res)
-    })
-    .catch(err => {
-      console.log(err)
-    })
-    
-    this.props.history.push('/tagboard');
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    this.props.history.push("/tagboard");
 
     this.setState({
       department: "",
       department_id: "",
       comment: ""
-    }); 
+    });
+  };
+
+  validateField = (name, value) => {
+    switch (name) {
+      case "comment":
+        if (value.length > 280) {
+          console.log("over 280");
+          this.setState({
+            validCC: false,
+            characters: this.state.characters + this.state.comment.length,
+            message: "comment too long"
+          });
+        } else if (value.length === 280) {
+          console.log("you're at 280");
+          this.setState({
+            validCC: true,
+            characters: this.state.characters - this.state.comment.length,
+            message: ""
+          });
+        } else if (value.length < 280) {
+          console.log("you're under 280");
+          this.setState({
+            validCC: true,
+            characters: this.state.characters - this.state.comment.length,
+            message: ""
+          });
+        }
+        break;
+    }
   };
 
   handleInputChange = event => {
@@ -73,68 +105,88 @@ class Comment extends Component {
     this.setState({
       [name]: value
     });
+    this.validateField(name, value);
   };
 
   handleFormChange = event => {
-    const { name, value } = event.target.value
+    const { name, value } = event.target.value;
     this.setState({
       [name]: value
     });
   };
 
   handleDropDownChange = event => {
-    this.setState( {department_id: event.target.value})
+    this.setState({ department_id: event.target.value });
+    event.target.value !== "selectedID"
+      ? this.setState({ validDep: true })
+      : this.setState({ validDep: false });
   };
 
   render() {
     return (
       <div>
-        <Container>
+        {/* <Container> */}
           <Title>This is the comment page</Title>
           <Title>{this.state.message}</Title>
           <Row>
-            <Col size="sm" className="text-center">
-              <div className="rounded" id="commentContainer">
-              <form>
-              <FormGroup>
-                <Label text="Select a Department" />
-                <Dropdown
-                  name="department"
-                  value={this.state.department}
-                  onChange={this.handleDropDownChange}
-                >
-                  {this.state.departments.map(department => (
-                    <Option text={department.name} key={department._id} value={department._id}/>
-                  ))}
-                  ;
-                </Dropdown> 
-              </FormGroup>
+            <Col size="sm">
+              <div className="container rounded" id="commentContainer">
+                <form>
+                  <FormGroup>
+                    <Label text="Select a Department" />
+                    <Dropdown
+                      name="department"
+                      value={this.state.department}
+                      onChange={this.handleDropDownChange}
+                    >
+                      {this.state.departments.map(department => (
+                        <Option
+                          text={department.name}
+                          key={department._id}
+                          value={department._id}
+                        />
+                      ))}
+                      ;
+                    </Dropdown>
+                  </FormGroup>
 
-              <FormGroup>
-                <Label text="Leave a Comment" />
-                <TextArea
-                  name="comment"
-                  value={this.state.comment}
-                  onChange={this.handleInputChange}
-                  // placeholder="at least 8 characters"
-                  type="text"
-                  rows="4"
-                />
-              </FormGroup>
+                  <FormGroup>
+                    <Label text="Leave a Comment" />
+                    <TextArea
+                      name="comment"
+                      value={this.state.comment}
+                      onChange={this.handleInputChange}
+                      type="text"
+                      rows="6"
+                    />
+                    <Row>
+                      <Col size="sm">
+                        <Small text={this.state.characters} />
+                      </Col>
+                      <Col size="sm">
+                        <Small text={this.state.message} />
+                      </Col>
+                    </Row>
+                  </FormGroup>
 
-              <FormBtn
-                text="Submit"
-                onClick={this.comment}
-                classes="btn-primary"
-              />
-              </form>
+                  <FormBtn
+                    disabled={
+                      this.state.validCC && this.state.validDep
+                        ? ""
+                        : "disabled"
+                    }
+                    text="Submit"
+                    onClick={this.comment}
+                    classes="btn-primary"
+                  />
+                </form>
               </div>
             </Col>
           </Row>
-        </Container>
+        {/* </Container> */}
       </div>
     );
   }
 }
 
-export default withRouter(Comment) ;
+export default withRouter(Comment);

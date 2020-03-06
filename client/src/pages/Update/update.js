@@ -8,7 +8,6 @@ import {
   FormGroup,
   Input,
   Label,
-  Small,
   FormBtn,
   Dropdown,
   Option
@@ -32,7 +31,6 @@ class Update extends Component {
   componentDidMount() {
     this.getDepartments();
     this.getInfo();
-    this.validateField();
   }
 
   getDepartments = () => {
@@ -79,7 +77,6 @@ class Update extends Component {
     this.setState({
       [name]: value
     });
-    this.validateField(name, value);
   };
 
   fileSelectedHandler = event => {
@@ -100,55 +97,6 @@ class Update extends Component {
       .catch(err => {
         console.log(err);
       });
-  };
-
-  validateField = (name, value) => {
-    switch (name) {
-      case "firstname":
-        this.setState({ validFN: value !== "" });
-        break;
-      case "lastname":
-        this.setState({ validLN: value !== "" });
-        break;
-      case "position":
-        this.setState({ validPO: value !== "" });
-        break;
-      case "department":
-        this.setState({
-          validDP: value !== "" && value !== this.state.departmentselector
-        });
-        break;
-      case "username":
-        if (value.length > 7) {
-          API.availableUN(value.toLowerCase())
-            .then(res => {
-              res.data.length < 1
-                ? this.setState({ validUN: true })
-                : this.setState({ validUN: false });
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        } else {
-          this.setState({ validUN: false });
-        }
-        break;
-      // case "email":
-      //   this.setState({ validEM: this.state.reg.test(value) });
-      //   break;
-      case "password":
-        this.setState({
-          validPW: value.length > 7,
-          validCF: value.length > 7 && value === this.state.confirm
-        });
-        break;
-      case "confirm":
-        this.setState({
-          validCF: this.state.validPW && this.state.password === value
-        });
-        break;
-      default:
-    }
   };
 
   update = event => {
@@ -199,9 +147,6 @@ class Update extends Component {
                       onChange={this.handleInputChange}
                       type="text"
                     />
-                    <Small
-                      text={this.state.validFN ? "" : "No first name entered"}
-                    />
                   </Col>
                   <Col size="sm-6">
                     <Label text="Last Name" />
@@ -211,9 +156,6 @@ class Update extends Component {
                       onChange={this.handleInputChange}
                       placeholder="Smith"
                       type="text"
-                    />
-                    <Small
-                      text={this.state.validLN ? "" : "No last name entered"}
                     />
                   </Col>
                 </Row>
@@ -229,9 +171,6 @@ class Update extends Component {
                       placeholder="Coordinator"
                       type="text"
                     />
-                    <Small
-                      text={this.state.validPO ? "" : "No position entered"}
-                    />
                   </Col>
                   <Col size="sm-6">
                     <Label text="Department" />
@@ -245,9 +184,6 @@ class Update extends Component {
                       ))}
                       ;
                     </Dropdown>
-                    <Small
-                      text={this.state.validDP ? "" : "No department chosen"}
-                    />
                   </Col>
                 </Row>
               </FormGroup>
@@ -261,39 +197,13 @@ class Update extends Component {
                   placeholder="Email"
                   type="email"
                 />
-                {/* {this.state.validEM ? (
-              <Small text="Email is valid" />
-            ) : (
-              <Small text="Email is invalid" />
-            )} */}
               </FormGroup>
 
               <FormBtn
-                // disabled={
-                //   this.state.validFN &&
-                //   this.state.validLN &&
-                //   this.state.validPO &&
-                //   this.state.validDP &&
-                //   this.state.validUN &&
-                //   this.state.validEM &&
-                //   this.state.validCF
-                //     ? ""
-                //     : "disabled"
-                // }
                 text="Submit"
                 onClick={this.update}
                 classes="btn-primary"
               />
-            </Col>
-          </Row>
-          <Row>
-            <Col size="sm">
-              <Link to="/welcome">Welcome</Link>
-              <Link to="/tagboard">Tagboard</Link>
-              <Link to="/search">Search</Link>
-              <Link to="/admin">Admin</Link>
-              <Link to="/update">Update</Link>
-              <Link to="/comment">Comment</Link>
             </Col>
           </Row>
         </Container>

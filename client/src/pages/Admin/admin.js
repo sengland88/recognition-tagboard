@@ -167,8 +167,6 @@ class Admin extends Component {
         console.log(err);
         this.setState({ message: "A server error has occurred." });
       });
-
-    this.setState({});
   };
 
   userDelete = event => {
@@ -201,6 +199,17 @@ class Admin extends Component {
     if (name === "admin" && value !== "") this.setState({ admin: value });
     if (name === "employee_id" && value !== "selectedID")
       this.getEmployeeInfo(value);
+
+    if (name === "employee_id" && value === "selectedID") {
+      this.setState({
+        employee_id: "",
+        firstname: "",
+        lastname: "",
+        position: "",
+        email: "",
+        admin: ""
+      });
+    }
     console.log(this.state);
   };
 
@@ -216,7 +225,7 @@ class Admin extends Component {
             id="noanim-tab-example"
           >
             <Tab eventKey="users" title="Manager Users">
-              <Row>
+              <Row className="theUsers">
                 <FormGroup>
                   <Dropdown
                     name="employee_id"

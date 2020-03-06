@@ -295,12 +295,6 @@ class Register extends Component {
               onClick={this.register}
               classes="btn-primary"
             />
-            <Link to="/login">Already registered? Click here.</Link>
-            <Link to="/welcome">Welcome</Link>
-            <Link to="/tagboard">Tagboard</Link>
-            <Link to="/search">Search</Link>
-            <Link to="/admin">Admin</Link>
-            <Link to="/update">Update</Link>
           </FormGroup>
         </form>
       </div>

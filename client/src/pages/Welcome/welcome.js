@@ -52,7 +52,7 @@ class Welcome extends Component {
         <Container>
           <Title>this is the welcome page</Title>
           <Row>
-            <Col size="sm-3">
+            <Col className="border-right pr-2 border-danger" size="sm-3">
               <h4>Name</h4>
               <p>
                 {this.state.firstname} {this.state.lastname}
