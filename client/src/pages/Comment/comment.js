@@ -16,7 +16,6 @@ import {
 } from "../../components/Form";
 import API from "../../utils/API";
 import "./comment.css";
-import { ResponsiveEmbed } from "react-bootstrap";
 
 class Comment extends Component {
   state = {
@@ -51,7 +50,6 @@ class Comment extends Component {
   };
 
   comment = () => {
-    this.email()
     API.submitComment({
       department_id: this.state.department_id,
       comment: this.state.comment
@@ -61,22 +59,15 @@ class Comment extends Component {
       })
       .catch(err => {
         console.log(err);
-      });   
+      });
 
     this.props.history.push("/tagboard");
-  };
 
-  email = () => {
-    console.log("email connected")
-    API.sendEmail({      
-      comment: this.state.comment
-    })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.setState({
+      department: "",
+      department_id: "",
+      comment: ""
+    });
   };
 
   validateField = (name, value) => {
@@ -129,13 +120,10 @@ class Comment extends Component {
 
 
   handleDropDownChange = event => {
-    console.log(event.target)
-    this.setState({ department_id: event.target.value});
+    this.setState({ department_id: event.target.value });
     event.target.value !== "selectedID"
       ? this.setState({ validDep: true })
       : this.setState({ validDep: false });
-      console.log(this.state)
-
   };
 
   render() {
@@ -160,7 +148,6 @@ class Comment extends Component {
                         text={department.name}
                         key={department._id}
                         value={department._id}
-                        data={department.name}
                       />
                     ))}
                     ;

@@ -1,12 +1,8 @@
-require("dotenv").config();
-
 const passport = require("passport");
 const express = require("express");
 const router = express.Router();
 const db = require("./models");
 var isAuthenticated = require("./config/middleware/isAuthenticated");
-const nodemailer = require('nodemailer');
-const keys = require("./keys");
 
 //Post Routes++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 router.post("/api/register", function(req, res) {
@@ -96,38 +92,6 @@ router.post("/api/admin", isAuthenticated, function(req, res) {
     .catch(function(err) {
       console.log(err);
     });
-});
-
-router.post("/api/email", isAuthenticated, function(req, res) {
-
-  const message = `
-  Comment: ${req.body.comment}`
-
-  var transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: keys.gmail.id,
-        pass: keys.gmail.secret
-      }
-    });
-    
-    var mailOptions = {
-      from: 'shelbyenglandcoding@gmail.com',
-      to: req.user.email,
-      subject: `Thank for Leaving a Comment!`,
-      text: message
-    };
-    
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-        res.json(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
-
-  res.json("it worked.");
 });
 
 // Get Routes+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -281,23 +245,6 @@ router.put("/api/updatecomment", isAuthenticated, function(req, res) {
       console.log(err);
     });
 });
-
-router.put("/api/updatedepartment", isAuthenticated, function(req, res) {
-  console.log("update department connected");
-  console.log(req.body);
-
-  db.Department.findByIdAndUpdate({ _id: req.body.department_id }, req.body, {
-    new: true
-  })
-    .then(function(data) {
-      console.log(data);
-      res.json(data);
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
-});
-
 
 // Delete Routes+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

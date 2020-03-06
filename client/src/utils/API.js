@@ -20,10 +20,6 @@ export default {
     console.log("comment connecting");
     return axios.post("/api/comment", data);
   },
-  sendEmail: function(data) {
-    console.log("email connecting");
-    return axios.post("/api/email", data);
-  },
 
   // Get Requests ++++++++++++++++++++++++++++++++++++
   getDepartments: function() {
@@ -75,11 +71,6 @@ export default {
   updateComment: function(data) {
     console.log("update connecting");
     return axios.put("/api/updatecomment", data);
-  },
-
-  updateDepartment: function(data) {
-    console.log("update department connecting");
-    return axios.put("/api/updatedepartment", data);
   },
 
   //Destroy Routes +++++++++++++++++++++++++++++++++
