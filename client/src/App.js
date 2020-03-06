@@ -17,11 +17,12 @@ import Search from "./pages/Search/search.js";
 import Comment from "./pages/Comment/comment.js";
 import Admin from "./pages/Admin/admin.js";
 import Update from "./pages/Update/update.js";
+import Logout from "./pages/Logout/logout.js";
 import NoMatch from "./pages/NoMatch/nomatch.js";
 
 // components
 import Nav from "./components/Nav";
-import Footer from "./components/Footer";
+
 
 class App extends Component {
   state = {
@@ -33,8 +34,6 @@ class App extends Component {
 
   componentDidMount() {
     this.isAuthorized();
-    //modal.show
-    //create function to show the modals
   }
 
   isAuthorized = () => {
@@ -42,7 +41,7 @@ class App extends Component {
       .then(res => {
         if (res.data.message) {
           // this authorize will need to be changed to false
-          this.setState({ authorized: false, admin: true, display: true });
+          this.setState({ authorized: false, admin: false, display: true });
         } else {
           this.setState({
             authorized: true,
@@ -54,7 +53,7 @@ class App extends Component {
       .catch(err => {
         console.log(err);
         // this authorize and admin will need to be changed to false
-        this.setState({ authorized: false, admin: true, display: true });
+        this.setState({ authorized: false, admin: false, display: true });
       });
   };
 
@@ -63,6 +62,7 @@ class App extends Component {
       .then(res => {
         console.log("logged out");
         this.isAuthorized();
+        this.setState({ authorized: false, admin: false, display: true });
       })
       .catch(err => {
         console.log(err);
@@ -74,7 +74,7 @@ class App extends Component {
       <Router>
         {this.state.display ? (
           <React.Fragment>
-            <Nav />
+            <Nav logout={this.logout} />
             <Switch>
               <Route exact path="/login">
                 <Login
@@ -118,6 +118,10 @@ class App extends Component {
 
               <Route exact path="/comment">
                 {this.state.authorized ? <Comment /> : <Redirect to="/login" />}
+              </Route>
+
+              <Route exact path="/logout">
+              {this.state.authorized ? <Logout  /> : <Redirect to="/" />}
               </Route>
 
               <Route exact path="/">
