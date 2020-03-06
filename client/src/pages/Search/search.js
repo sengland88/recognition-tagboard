@@ -17,11 +17,11 @@ import Col from "../../components/Col";
 import API from "../../utils/API";
 import CommentCard from "../../components/CommentCard/commentcard";
 import "./search.css";
-import moment from "moment"
+import moment from "moment";
 
 class Search extends Component {
   state = {
-    message: "",
+    message: "No Department Selected",
     departmentselector: "Choose Department...",
     department_id: "",
     departments: [],
@@ -49,7 +49,7 @@ class Search extends Component {
   getDepartmentComments = id => {
     API.getDepartmentComments(id)
       .then(res => {
-        (Array.isArray(res.data) && res.data.length > 0)
+        Array.isArray(res.data) && res.data.length > 0
           ? this.setState({ comments: res.data, message: "Comments Found" })
           : this.setState({ comments: [], message: "No Comments Found" });
       })
@@ -75,6 +75,12 @@ class Search extends Component {
     return (
       <div>
         <Container>
+        <img
+          src="./imgs/search.jpg"
+          class="d-block w-100 img-fluid rounded"
+          alt="Responsive image"
+          id="coverPic"
+        />
           <Title>Search for Comments by Department</Title>
           <Title>{this.state.message}</Title>
           <Label text="Select a Department" />

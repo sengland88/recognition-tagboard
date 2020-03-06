@@ -28,7 +28,7 @@ class Comment extends Component {
     characters: 280,
     validCC: false,
     validDep: false,
-    message: ""
+    message: "Submit a Comment"
   };
 
   componentDidMount() {
@@ -90,7 +90,7 @@ class Comment extends Component {
         } else if (value.length < 280) {
           console.log("you're under 280");
           this.setState({
-            validCC: true,            
+            validCC: true,
             characters: this.state.characters + 1,
             message: ""
           });
@@ -100,8 +100,7 @@ class Comment extends Component {
   };
 
   updateCount = num => {
-
-    this.setState({ characters: this.state.comment.length - num})   
+    this.setState({ characters: this.state.comment.length - num });
 
     if (num > 280) this.negNumber(num);
   };
@@ -115,9 +114,8 @@ class Comment extends Component {
     this.setState({
       [name]: value
     });
-    this.validateField(name, value)
+    this.validateField(name, value);
   };
-
 
   handleDropDownChange = event => {
     this.setState({ department_id: event.target.value });
@@ -128,9 +126,13 @@ class Comment extends Component {
 
   render() {
     return (
-      <div>
-        {/* <Container> */}
-        <Title>This is the comment page</Title>
+      <div className="container">
+        <img
+          src="./imgs/comment.jpg"
+          class="d-block w-100 img-fluid rounded"
+          alt="Responsive image"
+          id="coverPic"
+        />
         <Title>{this.state.message}</Title>
         <Row>
           <Col size="sm">
@@ -155,7 +157,7 @@ class Comment extends Component {
                 </FormGroup>
 
                 <FormGroup>
-                  <Label text="Leave a Comment" />
+                  <Label text="Write a Comment" />
                   <TextArea
                     name="comment"
                     value={this.state.comment}

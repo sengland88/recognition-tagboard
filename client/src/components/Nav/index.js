@@ -3,19 +3,21 @@ import { Link } from "react-router-dom";
 import "./style.css";
 
 class Nav extends Component {
-
-
-  render(){
+  render() {
     return (
       <nav
         className="navbar navbar-expand-lg navbar-dark justify-content-between"
         id="navi"
       >
-        <img
-          className="justify-content-start"
-          src="./imgs/logo.jpg"
-          className="theLogo"
-        />
+        <a href="/">
+          <img
+            className="justify-content-start"
+            src="./imgs/logo.jpg"
+            className="theLogo"
+            to="/"
+          />
+        </a>
+
         <div>
           <ul className="navbar-nav">
             <li className="nav-item">

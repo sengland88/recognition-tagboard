@@ -131,7 +131,6 @@ class Update extends Component {
     return (
       <div>
         <Container>
-          <Title>this is the update page</Title>
           <Title>{this.state.message}</Title>
           <Row>
             <Col size="sm">

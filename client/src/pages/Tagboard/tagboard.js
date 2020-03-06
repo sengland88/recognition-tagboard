@@ -34,21 +34,26 @@ class Tagboard extends Component {
   render() {
     return (
       <div className="container theContainer">
-        <Container>
-          {/* <Title>This is the tagboard</Title>
-          <Title>{this.state.message}</Title> */}
-<Title>This is the tagboard</Title>
+        <img
+          src="./imgs/tagboard.jpg"
+          class="d-block w-100 img-fluid rounded"
+          alt="Responsive image"
+          id="coverPic"
+        />
           <Row>
             <Col size="sm-9">
               <p>Here are the comments said about your fellows departments.</p>
             </Col>
-            <Col size="sm" className="align-middle">          <form>
-            <FormBtn
-              text="Leave a Comment"
-              classes="btn-dark"
-              onClick={this.createComment}
-            ></FormBtn>
-          </form></Col>
+            <Col size="sm" className="align-middle">
+              {" "}
+              <form>
+                <FormBtn
+                  text="Leave a Comment"
+                  classes="btn-dark"
+                  onClick={this.createComment}
+                ></FormBtn>
+              </form>
+            </Col>
           </Row>
 
           <Row>
@@ -61,7 +66,6 @@ class Tagboard extends Component {
               />
             ))}
           </Row>
-        </Container>
       </div>
     );
   }

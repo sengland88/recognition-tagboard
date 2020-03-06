@@ -122,10 +122,12 @@ class Admin extends Component {
     })
       .then(res => {
         console.log(res);
+        this.setState( {message: "Comment Updated"})
       })
       .catch(err => {
         console.log(err);
       });
+      
   };
 
   deleteComment = id => {
@@ -133,10 +135,12 @@ class Admin extends Component {
     API.deleteComment(id)
       .then(res => {
         console.log(res);
+        this.setState( {message: "Comment Deleted"})
       })
       .catch(err => {
         console.log(err);
       });
+      this.forceUpdate()
   };
 
   getEmployeeInfo = id => {
@@ -184,7 +188,7 @@ class Admin extends Component {
           this.setState({ message: res.data.message });
         } else {
           console.log("information added");
-          this.setState({ message: "Your information has been updated" });
+          this.setState({ message: "User Information Updated" });
         }
       })
       .catch(err => {
@@ -204,7 +208,7 @@ class Admin extends Component {
           this.setState({ message: res.data.message });
         } else {
           console.log("user delete");
-          this.setState({ message: "User has been delete" });
+          this.setState({ message: "User Deleted" });
         }
       })
       .catch(err => {
@@ -241,7 +245,6 @@ class Admin extends Component {
     return (
       <div>
         <Container>
-          <Title>This is the Admin</Title>
           <Title>{this.state.message}</Title>
           <Tabs
             defaultActiveKey="users"
@@ -280,11 +283,6 @@ class Admin extends Component {
                           onChange={this.handleInputChange}
                           type="text"
                         />
-                        <Small
-                          text={
-                            this.state.validFN ? "" : "No first name entered"
-                          }
-                        />
                       </Col>
                       <Col size="sm-6">
                         <Label text="Last Name" />
@@ -293,11 +291,6 @@ class Admin extends Component {
                           value={this.state.lastname}
                           onChange={this.handleInputChange}
                           type="text"
-                        />
-                        <Small
-                          text={
-                            this.state.validLN ? "" : "No last name entered"
-                          }
                         />
                       </Col>
                     </Row>
@@ -312,9 +305,6 @@ class Admin extends Component {
                           value={this.state.position}
                           onChange={this.handleInputChange}
                           type="text"
-                        />
-                        <Small
-                          text={this.state.validPO ? "" : "No position entered"}
                         />
                       </Col>
                       <Col size="sm-6">
@@ -332,11 +322,6 @@ class Admin extends Component {
                           ))}
                           ;
                         </Dropdown>
-                        <Small
-                          text={
-                            this.state.validDP ? "" : "No department chosen"
-                          }
-                        />
                       </Col>
                     </Row>
                   </FormGroup>
@@ -363,6 +348,7 @@ class Admin extends Component {
                       <Option value="false" text="False" />
                       <Option value="true" text="True" />
                     </Dropdown>
+                    <Small text="Please note that if Admin Rights are granted to a user, they will be able to manager users and comments. The default value is set to false" />
                   </FormGroup>
 
                   <FormBtn

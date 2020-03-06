@@ -48,8 +48,8 @@ class Welcome extends Component {
   render() {
     return (
       <div className="container">
+          <img src="./imgs/welcome.jpg" class="d-block w-100 img-fluid rounded" alt="Responsive image" id="coverPic"/>
         <Container>
-          <Title>this is the welcome page</Title>
           <Row>
             <Col className="border-right pr-2 border-danger" size="sm-3">
               <h4>Name</h4>

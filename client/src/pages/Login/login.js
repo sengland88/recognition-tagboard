@@ -60,7 +60,7 @@ class Login extends Component {
           />
         ) : (
           <div className="container rounded" id="loginContainer">
-            <p>login page</p>
+            <p>Please Log In</p>
             <form>
               <FormGroup>
                 <Label text="Username" />
