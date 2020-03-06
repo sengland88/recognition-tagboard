@@ -74,7 +74,7 @@ class App extends Component {
       <Router>
         {this.state.display ? (
           <React.Fragment>
-            <Nav isLogout={this.logout} />
+            <Nav logout={this.logout} />
             <Switch>
               <Route exact path="/login">
                 <Login
@@ -121,7 +121,7 @@ class App extends Component {
               </Route>
 
               <Route exact path="/logout">
-              {this.state.authorized ? "" : <Logout />}
+              {this.state.authorized ? <Logout logout={this.logout} /> : <Redirect to="/" />}
               </Route>
 
               <Route exact path="/">
