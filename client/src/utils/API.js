@@ -73,6 +73,11 @@ export default {
     return axios.put("/api/updatecomment", data);
   },
 
+  updateDepartment: function(data) {
+    console.log("update department connecting");
+    return axios.put("/api/updatedepartment", data);
+  },
+
   //Destroy Routes +++++++++++++++++++++++++++++++++
   deleteComment: function(id) {
     console.log("delete connecting");

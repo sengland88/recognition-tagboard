@@ -20,7 +20,6 @@ class Tagboard extends Component {
   getComments = () => {
     API.getComments()
       .then(res => {
-        console.log(res);
         this.setState({ comments: res.data });
       })
       .catch(err => {

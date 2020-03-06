@@ -49,7 +49,6 @@ class Admin extends Component {
   getDepartments = () => {
     API.getDepartments()
       .then(res => {
-        console.log(res.data);
         res.data.unshift({
           _id: "selectedID",
           name: this.state.departmentselector
@@ -59,6 +58,32 @@ class Admin extends Component {
       .catch(err => {
         console.log(err);
       });
+  };
+
+  updateDepartment = id => {
+    console.log(`Update: This is the id: ${id}`);
+    console.log(this.state[`department${id}}`]);
+    // API.updateDepartment({
+    //   department: id,
+    //   name: this.state[`department${id}}`]
+    // })
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+  };
+
+  deleteDepartment = id => {
+    console.log(`Delete: This is the id: ${id}`);
+    // API.deleteComment(id)
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   };
 
   getEmployees = () => {
@@ -210,7 +235,6 @@ class Admin extends Component {
         admin: ""
       });
     }
-    console.log(this.state);
   };
 
   render() {
@@ -396,6 +420,57 @@ class Admin extends Component {
                           <Button
                             variant="danger"
                             onClick={() => this.deleteComment(comment._id)}
+                          >
+                            Delete
+                          </Button>
+                        </TData>
+                      </TRow>
+                    ))}
+                  </TBody>
+                </Table>
+              </Row>
+            </Tab>
+
+            <Tab eventKey="departments" title="Manage Departments">
+              <Row>
+                <Table
+                  comments={this.state.departments}
+                  update={this.updateDepartment}
+                  delete={this.deleteDepartment}
+                >
+                  <THead>
+                    <TRow>
+                      <THeading>Department</THeading>
+                      <THeading>Update</THeading>
+                      <THeading>Delete</THeading>
+                    </TRow>
+                  </THead>
+                  <TBody>
+                    {this.state.departments.map(department => (
+                      <TRow>
+                        <TextArea
+                          name={`department${department._id}}`}
+                          value={this.state[`department${department._id}}`]}
+                          onChange={this.handleInputChange}
+                        >
+                          {department.name}
+                        </TextArea>
+                        <TData>
+                          <Button
+                            disabled={
+                              !this.state[`department${department._id}}`]
+                            }
+                            onClick={() =>
+                              this.updateDepartment(department._id)
+                            }
+                          >
+                            Update
+                          </Button>
+                        </TData>
+                        <TData>
+                          <Button
+                            variant="danger"
+                            onClick={() => this.deleteDepartment(department._id)}
                           >
                             Delete
                           </Button>

@@ -247,6 +247,23 @@ router.put("/api/updatecomment", isAuthenticated, function(req, res) {
     });
 });
 
+router.put("/api/updatedepartment", isAuthenticated, function(req, res) {
+  console.log("update department connected");
+  console.log(req.body);
+
+  db.Department.findByIdAndUpdate({ _id: req.body.department_id }, req.body, {
+    new: true
+  })
+    .then(function(data) {
+      console.log(data);
+      res.json(data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+});
+
+
 // Delete Routes+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 // Delete One from the DB

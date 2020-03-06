@@ -36,7 +36,6 @@ class Update extends Component {
   getDepartments = () => {
     API.getDepartments()
       .then(res => {
-        console.log(res.data);
         res.data.unshift({
           _id: "selectedID",
           name: this.state.departmentselector
@@ -55,7 +54,6 @@ class Update extends Component {
           // this authorize will need to be changed to false
           this.setState({ authorized: false, admin: false });
         } else {
-          console.log(res);
           this.setState({
             firstname: res.data[0].firstname,
             lastname: res.data[0].lastname,

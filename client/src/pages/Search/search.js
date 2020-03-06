@@ -35,7 +35,6 @@ class Search extends Component {
   getDepartments = () => {
     API.getDepartments()
       .then(res => {
-        console.log(res.data);
         res.data.unshift({
           _id: "selectedID",
           name: this.state.departmentselector
@@ -50,7 +49,6 @@ class Search extends Component {
   getDepartmentComments = id => {
     API.getDepartmentComments(id)
       .then(res => {
-        console.log(res);
         (Array.isArray(res.data) && res.data.length > 0)
           ? this.setState({ comments: res.data, message: "Comments Found" })
           : this.setState({ comments: [], message: "No Comments Found" });
