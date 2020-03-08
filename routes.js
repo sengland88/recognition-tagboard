@@ -98,37 +98,37 @@ router.post("/api/admin", isAuthenticated, function(req, res) {
     });
 });
 
-router.post("/api/email", isAuthenticated, function(req, res) {
+// router.post("/api/email", isAuthenticated, function(req, res) {
 
-  const message = `
-  Comment: ${req.body.comment}`
+//   const message = `
+//   Comment: ${req.body.comment}`
 
-  var transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: keys.gmail.id,
-        pass: keys.gmail.secret
-      }
-    });
+//   var transporter = nodemailer.createTransport({
+//       service: 'gmail',
+//       auth: {
+//         user: keys.gmail.id,
+//         pass: keys.gmail.secret
+//       }
+//     });
     
-    var mailOptions = {
-      from: 'shelbyenglandcoding@gmail.com',
-      to: req.user.email,
-      subject: `Thank for Leaving a Comment!`,
-      text: message
-    };
+//     var mailOptions = {
+//       from: 'shelbyenglandcoding@gmail.com',
+//       to: req.user.email,
+//       subject: `Thank for Leaving a Comment!`,
+//       text: message
+//     };
     
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-        res.json(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
+//     transporter.sendMail(mailOptions, function(error, info){
+//       if (error) {
+//         console.log(error);
+//         res.json(error);
+//       } else {
+//         console.log('Email sent: ' + info.response);
+//       }
+//     });
 
-  res.json("it worked.");
-});
+//   res.json("it worked.");
+// });
 
 // Get Routes+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

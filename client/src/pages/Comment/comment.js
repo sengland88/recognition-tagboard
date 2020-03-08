@@ -50,34 +50,34 @@ class Comment extends Component {
   };
 
   comment = () => {
-    this.email()
     API.submitComment({
       department_id: this.state.department_id,
       comment: this.state.comment
     })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+    
+    // this.email()
     this.props.history.push("/tagboard");
 
   };
 
-  email = () => {
-    console.log("email connected")
-    API.sendEmail({      
-      comment: this.state.comment
-    })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+  // email = () => {
+  //   console.log("email connected")
+  //   API.sendEmail({      
+  //     comment: this.state.comment
+  //   })
+  //     .then(res => {
+  //       console.log(res);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // };
 
   validateField = (name, value) => {
     switch (name) {
