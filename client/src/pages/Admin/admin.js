@@ -122,12 +122,11 @@ class Admin extends Component {
     })
       .then(res => {
         console.log(res);
-        this.setState( {message: "Comment Updated"})
+        this.setState({ message: "Comment Updated" });
       })
       .catch(err => {
         console.log(err);
       });
-      
   };
 
   deleteComment = id => {
@@ -135,12 +134,13 @@ class Admin extends Component {
     API.deleteComment(id)
       .then(res => {
         console.log(res);
-        this.setState( {message: "Comment Deleted"})
+        this.setState({ message: "Comment Deleted" });
       })
       .catch(err => {
         console.log(err);
       });
-      this.forceUpdate()
+    this.setState({comments: []})
+    this.getComments()
   };
 
   getEmployeeInfo = id => {
@@ -169,7 +169,6 @@ class Admin extends Component {
   };
 
   updateUser = event => {
-    console.log("button works");
     event.preventDefault();
     API.updateUserInfo({
       _id: this.state.employee_id,
@@ -196,6 +195,9 @@ class Admin extends Component {
         console.log(err);
         this.setState({ message: "A server error has occurred." });
       });
+      this.setState({employees: [], comments: []})
+      this.getEmployees()
+      this.getComments()
   };
 
   userDelete = event => {
@@ -374,7 +376,7 @@ class Admin extends Component {
                   <THead>
                     <TRow>
                       <THeading>Submitter</THeading>
-                      <THeading>Department</THeading>
+                      <THeading>Receiver</THeading>
                       <THeading>Comment</THeading>
                       <THeading>Update</THeading>
                       <THeading>Delete</THeading>
@@ -383,8 +385,14 @@ class Admin extends Component {
                   <TBody>
                     {this.state.comments.map(comment => (
                       <TRow>
-                        <TData>{comment.submitter_id.firstname}</TData>
-                        <TData>{comment.department_id.name}</TData>
+                        <TData>{`${comment.submitter_id.firstname} ${comment.submitter_id.lastname}`}</TData>
+                        <TData>
+                          {comment.department_id
+                            ? `${comment.department_id.name}`
+                            : "" || comment.receiver_id
+                            ? `${comment.receiver_id.firstname} ${comment.receiver_id.lastname}`
+                            : ""}
+                        </TData>
                         <TData>
                           <TextArea
                             name={`comment_${comment._id}}`}
@@ -456,7 +464,9 @@ class Admin extends Component {
                         <TData>
                           <Button
                             variant="danger"
-                            onClick={() => this.deleteDepartment(department._id)}
+                            onClick={() =>
+                              this.deleteDepartment(department._id)
+                            }
                           >
                             Delete
                           </Button>
