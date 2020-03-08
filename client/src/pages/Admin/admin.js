@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import Container from "../../components/Container";
 import Title from "../../components/Title";
 import Row from "../../components/Row";
@@ -24,7 +24,7 @@ import Table, {
 import API from "../../utils/API";
 import "./admin.css";
 import { Button } from "react-bootstrap";
-import { Tabs, Tab, TabContainer, TabContent, TabPane } from "react-bootstrap/";
+import { Tabs, Tab} from "react-bootstrap/";
 
 class Admin extends Component {
   state = {

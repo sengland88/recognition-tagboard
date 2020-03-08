@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Carousel from "../../components/Carousel";
 import Container from "../../components/Container";
-import Title from "../../components/Title";
 import Row from "../../components/Row";
 import Col from "../../components/Col";
 import "./public.css";

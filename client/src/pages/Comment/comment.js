@@ -1,13 +1,11 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import Container from "../../components/Container";
+import { withRouter } from "react-router-dom";
 import Title from "../../components/Title";
 import Row from "../../components/Row";
 import Col from "../../components/Col";
-import { Tabs, Tab, TabContainer, TabContent, TabPane } from "react-bootstrap/";
+import { Tabs, Tab } from "react-bootstrap/";
 import {
   FormGroup,
-  Input,
   Label,
   TextArea,
   Small,
@@ -119,29 +117,28 @@ class Comment extends Component {
   // };
 
   validateField = (name, value) => {
-
-        if (value.length > 280) {
-          console.log("over 280");
-          this.setState({
-            validCC: false,
-            characters: "Max 280 Characters",
-            message: "Sorry — Comment Too Long"
-          });
-        } else if (value.length === 280) {
-          console.log("you're at 280");
-          this.setState({
-            validCC: true,
-            characters: 280,
-            message: ""
-          });
-        } else if (value.length < 280) {
-          console.log("you're under 280");
-          this.setState({
-            validCC: true,
-            characters: this.state.characters + 1,
-            message: ""
-          });
-        }
+    if (value.length > 280) {
+      console.log("over 280");
+      this.setState({
+        validCC: false,
+        characters: "Max 280 Characters",
+        message: "Sorry — Comment Too Long"
+      });
+    } else if (value.length === 280) {
+      console.log("you're at 280");
+      this.setState({
+        validCC: true,
+        characters: 280,
+        message: ""
+      });
+    } else if (value.length < 280) {
+      console.log("you're under 280");
+      this.setState({
+        validCC: true,
+        characters: this.state.characters + 1,
+        message: ""
+      });
+    }
   };
 
   updateCount = num => {
@@ -182,14 +179,16 @@ class Comment extends Component {
     console.log(tab);
 
     switch (tab) {
-      case "department":
-        {
-          this.setState({ employeeComment: "" });
-        }
+      case "department": {
+        this.setState({ employeeComment: "" });
         break;
+      }
       case "employee": {
         this.setState({ departmentComment: "" });
+        break;
       }
+      default:
+        break;
     }
 
     this.setState({ comment: "" });

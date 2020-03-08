@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { Container, Row, Col } from "../../components/Grid";
-import Title from "../../components/Title";
+import { withRouter } from "react-router-dom";
+import { Row, Col } from "../../components/Grid";
 import { FormBtn } from "../../components/Form";
 import API from "../../utils/API";
 import "./tagboard.css";

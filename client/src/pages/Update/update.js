@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import Container from "../../components/Container";
 import Title from "../../components/Title";
 import Row from "../../components/Row";
@@ -14,7 +14,6 @@ import {
 } from "../../components/Form";
 import API from "../../utils/API";
 import "./update.css";
-import { Button } from "react-bootstrap";
 
 class Update extends Component {
   state = {

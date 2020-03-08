@@ -1,22 +1,14 @@
 import React, { Component } from "react";
-import { Tabs, Tab, TabContainer, TabContent, TabPane } from "react-bootstrap/";
+import { Tabs, Tab} from "react-bootstrap/";
 import {
-  FormGroup,
-  Input,
-  Label,
-  Small,
-  FormBtn,
   Dropdown,
   Option
 } from "../../components/Form";
-import Container from "../../components/Container";
 import Title from "../../components/Title";
 import Row from "../../components/Row";
-import Col from "../../components/Col";
 import API from "../../utils/API";
 import CommentCard from "../../components/CommentCard/commentcard";
 import "./search.css";
-import moment from "moment";
 
 class Search extends Component {
   state = {
