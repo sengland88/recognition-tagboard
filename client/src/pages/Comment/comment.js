@@ -50,6 +50,7 @@ class Comment extends Component {
   };
 
   comment = () => {
+    this.email()
     API.submitComment({
       department_id: this.state.department_id,
       comment: this.state.comment
@@ -63,11 +64,19 @@ class Comment extends Component {
 
     this.props.history.push("/tagboard");
 
-    this.setState({
-      department: "",
-      department_id: "",
-      comment: ""
-    });
+  };
+
+  email = () => {
+    console.log("email connected")
+    API.sendEmail({      
+      comment: this.state.comment
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   validateField = (name, value) => {

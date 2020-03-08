@@ -21,6 +21,11 @@ export default {
     return axios.post("/api/comment", data);
   },
 
+  // sendEmail: function(data) {
+  //   console.log("email connecting");
+  //   return axios.post("/api/email", data);
+  // },
+
   // Get Requests ++++++++++++++++++++++++++++++++++++
   getDepartments: function() {
     return axios.get("/api/departments");
