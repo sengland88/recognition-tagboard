@@ -65,6 +65,11 @@ export default {
     console.log(id);
     return axios.get("/api/departmentcomments/" + id);
   },
+  getEmployeeComments: function(id) {
+    console.log("getting department comments");
+    console.log(id);
+    return axios.get("/api/employeecomments/" + id);
+  },
 
   // Put Routes +++++++++++++++++++++++++++++++++++
   updateMyInfo: function(data) {

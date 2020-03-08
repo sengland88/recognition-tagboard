@@ -219,6 +219,23 @@ router.get("/api/departmentcomments/:id", isAuthenticated, function(req, res) {
     });
 });
 
+router.get("/api/employeecomments/:id", isAuthenticated, function(req, res) {
+  console.log("employee comment connected");
+  // console.log(req);
+  db.Comment.find({ receiver_id: req.params.id })
+    .populate("submitter_id")
+    .populate("receiver_id")
+    .then(result => {
+      console.log("*-*-*-*-")
+      console.log(result);
+      console.log("*-*-*-*-")
+      res.json(result);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
 router.get("/api/user", function(req, res) {
   console.log("available username");
   if (req.query.username) {
