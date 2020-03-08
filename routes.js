@@ -5,7 +5,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("./models");
 var isAuthenticated = require("./config/middleware/isAuthenticated");
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 const keys = require("./keys");
 
 //Post Routes++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -59,10 +59,6 @@ router.post("/api/imageupload", isAuthenticated, function(req, res) {
 });
 
 router.post("/api/commentdepartment", isAuthenticated, function(req, res) {
-  console.log("comment (department) connected");
-  console.log(req.user);
-  console.log(req.body);
-
   let data = {
     submitter_id: req.user._id,
     department_id: req.body.department_id,
@@ -79,10 +75,6 @@ router.post("/api/commentdepartment", isAuthenticated, function(req, res) {
 });
 
 router.post("/api/commentemployee", isAuthenticated, function(req, res) {
-  console.log("comment (employee) connected");
-  console.log(req.user);
-  console.log(req.body);
-
   let data = {
     submitter_id: req.user._id,
     receiver_id: req.body.employee_id,
@@ -99,9 +91,6 @@ router.post("/api/commentemployee", isAuthenticated, function(req, res) {
 });
 
 router.post("/api/admin", isAuthenticated, function(req, res) {
-  console.log("admin connected");
-  console.log(req.body);
-
   let result = {
     name: req.body.name,
     position: req.body.position,
@@ -110,6 +99,20 @@ router.post("/api/admin", isAuthenticated, function(req, res) {
   };
 
   db.Employee.create(result)
+    .then(function(data) {
+      console.log(data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+});
+
+router.post("/api/adddepartment", isAuthenticated, function(req, res) {
+  let result = {
+    name: req.body.name
+  };
+
+  db.Department.create(result)
     .then(function(data) {
       console.log(data);
     })
@@ -130,14 +133,14 @@ router.post("/api/admin", isAuthenticated, function(req, res) {
 //         pass: keys.gmail.secret
 //       }
 //     });
-    
+
 //     var mailOptions = {
 //       from: 'shelbyenglandcoding@gmail.com',
 //       to: req.user.email,
 //       subject: `Thank for Leaving a Comment!`,
 //       text: message
 //     };
-    
+
 //     transporter.sendMail(mailOptions, function(error, info){
 //       if (error) {
 //         console.log(error);
@@ -191,8 +194,6 @@ router.get("/api/userinfo", isAuthenticated, function(req, res) {
 });
 
 router.get("/api/employeeinfo/:id", isAuthenticated, function(req, res) {
-  console.log("employee info connected");
-  console.log(req);
   db.User.findOne({ _id: req.params.id })
     .populate("department_id")
     .then(result => {
@@ -205,8 +206,6 @@ router.get("/api/employeeinfo/:id", isAuthenticated, function(req, res) {
 });
 
 router.get("/api/departmentcomments/:id", isAuthenticated, function(req, res) {
-  console.log("department comment connected");
-  // console.log(req);
   db.Comment.find({ department_id: req.params.id })
     .populate("submitter_id")
     .populate("department_id")
@@ -220,15 +219,13 @@ router.get("/api/departmentcomments/:id", isAuthenticated, function(req, res) {
 });
 
 router.get("/api/employeecomments/:id", isAuthenticated, function(req, res) {
-  console.log("employee comment connected");
-  // console.log(req);
   db.Comment.find({ receiver_id: req.params.id })
     .populate("submitter_id")
     .populate("receiver_id")
     .then(result => {
-      console.log("*-*-*-*-")
+      console.log("*-*-*-*-");
       console.log(result);
-      console.log("*-*-*-*-")
+      console.log("*-*-*-*-");
       res.json(result);
     })
     .catch(err => {
@@ -250,7 +247,6 @@ router.get("/api/user", function(req, res) {
 });
 
 router.get("/api/loadcomments", isAuthenticated, function(req, res) {
-  console.log("load comments connected");
   db.Comment.find({})
     .populate("submitter_id")
     .populate("department_id")
@@ -276,10 +272,7 @@ router.get("/api/logout", function(req, res) {
 
 // Put Routes+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-router.put("/api/update", isAuthenticated, function(req, res) {
-  console.log("update connected");
-  console.log(req.body);
-
+router.put("/api/updatemyinfo", isAuthenticated, function(req, res) {
   db.User.findByIdAndUpdate({ _id: req.user._id }, req.body, { new: true })
     .then(function(data) {
       console.log(data);
@@ -291,9 +284,6 @@ router.put("/api/update", isAuthenticated, function(req, res) {
 });
 
 router.put("/api/userupdate", isAuthenticated, function(req, res) {
-  console.log("update connected");
-  console.log(req.body);
-
   db.User.findByIdAndUpdate({ _id: req.body._id }, req.body, { new: true })
     .then(function(data) {
       console.log(data);
@@ -305,10 +295,20 @@ router.put("/api/userupdate", isAuthenticated, function(req, res) {
 });
 
 router.put("/api/updatecomment", isAuthenticated, function(req, res) {
-  console.log("update comment connected");
-  console.log(req.body);
-
   db.Comment.findByIdAndUpdate({ _id: req.body.comment_id }, req.body, {
+    new: true
+  })
+    .then(function(data) {
+      console.log(data);
+      res.json(data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+});
+
+router.put("/api/updatedepartment", isAuthenticated, function(req, res) {
+  db.Department.findByIdAndUpdate({ _id: req.body.department_id }, req.body, {
     new: true
   })
     .then(function(data) {
@@ -322,11 +322,7 @@ router.put("/api/updatecomment", isAuthenticated, function(req, res) {
 
 // Delete Routes+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-// Delete One from the DB
 router.delete("/api/deletecomment/:id", isAuthenticated, function(req, res) {
-  // Remove a note using the objectID
-  console.log("trying to delete a comment");
-  console.log(req);
   db.Comment.remove(
     {
       _id: req.params.id
@@ -344,9 +340,6 @@ router.delete("/api/deletecomment/:id", isAuthenticated, function(req, res) {
 });
 
 router.delete("/api/deleteuser/:id", isAuthenticated, function(req, res) {
-  console.log("trying to delete a user");
-  console.log(req);
-
   db.User.deleteOne(
     {
       _id: req.params.id

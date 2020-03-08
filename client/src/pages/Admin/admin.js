@@ -37,6 +37,7 @@ class Admin extends Component {
     lastname: "",
     position: "",
     department: "",
+    newdepartment: "",
     admin: ""
   };
 
@@ -49,10 +50,9 @@ class Admin extends Component {
   getDepartments = () => {
     API.getDepartments()
       .then(res => {
-        res.data.unshift({
-          _id: "selectedID",
-          name: this.state.departmentselector
-        });
+        console.log("*-*-*-*-");
+        console.log(res);
+        console.log("*-*-*-*-");
         this.setState({ departments: res.data });
       })
       .catch(err => {
@@ -62,28 +62,31 @@ class Admin extends Component {
 
   updateDepartment = id => {
     console.log(`Update: This is the id: ${id}`);
-    console.log(this.state[`department${id}}`]);
-    // API.updateDepartment({
-    //   department: id,
-    //   name: this.state[`department${id}}`]
-    // })
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    console.log(this.state[`department${id}`]);
+
+    API.updateDepartment({
+      department_id: id,
+      name: this.state[`department${id}`]
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-  deleteDepartment = id => {
-    console.log(`Delete: This is the id: ${id}`);
-    // API.deleteComment(id)
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+  addDepartment = () => {
+    console.log(this.state.newdepartment)
+    API.addDepartment({
+      name: this.state.newdepartment
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   getEmployees = () => {
@@ -104,7 +107,6 @@ class Admin extends Component {
   getComments = () => {
     API.getComments()
       .then(res => {
-        console.log(res);
         let comments = res.data.reverse();
         this.setState({ comments: comments });
       })
@@ -139,8 +141,8 @@ class Admin extends Component {
       .catch(err => {
         console.log(err);
       });
-    this.setState({comments: []})
-    this.getComments()
+    this.setState({ comments: [] });
+    this.getComments();
   };
 
   getEmployeeInfo = id => {
@@ -195,9 +197,9 @@ class Admin extends Component {
         console.log(err);
         this.setState({ message: "A server error has occurred." });
       });
-      this.setState({employees: [], comments: []})
-      this.getEmployees()
-      this.getComments()
+    this.setState({ employees: [], comments: [] });
+    this.getEmployees();
+    this.getComments();
   };
 
   userDelete = event => {
@@ -427,6 +429,32 @@ class Admin extends Component {
 
             <Tab eventKey="departments" title="Manage Departments">
               <Row>
+                <Table>
+                  <THead>
+                    <TRow>
+                      <THeading>New Department Name</THeading>
+                      <THeading>Add Department</THeading>
+                    </TRow>
+                  </THead>
+                  <TRow>
+                    <TextArea
+                      name="newdepartment"
+                      value={this.state.newdepartment}
+                      onChange={this.handleInputChange}
+                    ></TextArea>
+                    <TData>
+                      <Button
+                        disabled={!this.state.newdepartment}
+                        onClick={this.addDepartment}
+                      >
+                        Add Department
+                      </Button>
+                    </TData>
+                  </TRow>
+                </Table>
+              </Row>
+
+              <Row>
                 <Table
                   comments={this.state.departments}
                   update={this.updateDepartment}
@@ -436,14 +464,13 @@ class Admin extends Component {
                     <TRow>
                       <THeading>Department</THeading>
                       <THeading>Update</THeading>
-                      <THeading>Delete</THeading>
                     </TRow>
                   </THead>
                   <TBody>
                     {this.state.departments.map(department => (
                       <TRow>
                         <TextArea
-                          name={`department${department._id}}`}
+                          name={`department${department._id}`}
                           value={this.state[`department${department._id}}`]}
                           onChange={this.handleInputChange}
                         >
@@ -452,23 +479,13 @@ class Admin extends Component {
                         <TData>
                           <Button
                             disabled={
-                              !this.state[`department${department._id}}`]
+                              !this.state[`department${department._id}`]
                             }
                             onClick={() =>
                               this.updateDepartment(department._id)
                             }
                           >
                             Update
-                          </Button>
-                        </TData>
-                        <TData>
-                          <Button
-                            variant="danger"
-                            onClick={() =>
-                              this.deleteDepartment(department._id)
-                            }
-                          >
-                            Delete
                           </Button>
                         </TData>
                       </TRow>

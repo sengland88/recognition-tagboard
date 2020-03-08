@@ -20,10 +20,13 @@ export default {
     console.log("comment connecting");
     return axios.post("/api/commentdepartment", data);
   },
-
   submitCommentEmployee: function(data) {
     console.log("comment connecting");
     return axios.post("/api/commentemployee", data);
+  },
+  addDepartment: function(data) {
+    console.log("comment connecting");
+    return axios.post("/api/adddepartment", data);
   },
   // sendEmail: function(data) {
   //   console.log("email connecting");
@@ -74,7 +77,7 @@ export default {
   // Put Routes +++++++++++++++++++++++++++++++++++
   updateMyInfo: function(data) {
     console.log("update connecting");
-    return axios.put("/api/update", data);
+    return axios.put("/api/updatemyinfo", data);
   },
 
   updateUserInfo: function(data) {
@@ -85,6 +88,11 @@ export default {
   updateComment: function(data) {
     console.log("update connecting");
     return axios.put("/api/updatecomment", data);
+  },
+
+  updateDepartment: function(data) {
+    console.log("update department connecting");
+    return axios.put("/api/updatedepartment", data);
   },
 
   //Destroy Routes +++++++++++++++++++++++++++++++++

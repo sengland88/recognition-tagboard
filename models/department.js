@@ -5,7 +5,6 @@ const Department = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true
     },    
 
     created: { type: Date, required: true, default: Date.now() },
