@@ -4,6 +4,7 @@ import Container from "../../components/Container";
 import Title from "../../components/Title";
 import Row from "../../components/Row";
 import Col from "../../components/Col";
+import { Tabs, Tab, TabContainer, TabContent, TabPane } from "react-bootstrap/";
 import {
   FormGroup,
   Input,
@@ -20,19 +21,25 @@ import "./comment.css";
 class Comment extends Component {
   state = {
     departmentselector: "Choose Department ...",
+    employees: [],
     departments: [],
     recognized: "",
     department: "",
     department_id: "",
-    comment: "",
+    employee: "",
+    employee_id: "",
+    departmentComment: "",
+    employeeComment: "",
     characters: 280,
     validCC: false,
     validDep: false,
+    validUse: false,
     message: "Submit a Comment"
   };
 
   componentDidMount() {
     this.getDepartments();
+    this.getEmployees();
   }
 
   getDepartments = () => {
@@ -49,26 +56,58 @@ class Comment extends Component {
       });
   };
 
-  comment = () => {
-    API.submitComment({
+  getEmployees = () => {
+    API.getEmployees()
+      .then(res => {
+        res.data.unshift({
+          _id: "selectedID",
+          firstname: "Choose",
+          lastname: "Employee"
+        });
+        this.setState({ employees: res.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  departmentComment = () => {
+    API.submitCommentDepartment({
       department_id: this.state.department_id,
-      comment: this.state.comment
+      employee_id: null,
+      comment: this.state.departmentComment
     })
-    .then(res => {
-      console.log(res);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-    
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
     // this.email()
     this.props.history.push("/tagboard");
+  };
 
+  employeeComment = () => {
+    API.submitCommentEmployee({
+      employee_id: this.state.employee_id,
+      department_id: null,
+      comment: this.state.employeeComment
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    // this.email()
+    this.props.history.push("/tagboard");
   };
 
   // email = () => {
   //   console.log("email connected")
-  //   API.sendEmail({      
+  //   API.sendEmail({
   //     comment: this.state.comment
   //   })
   //     .then(res => {
@@ -80,8 +119,7 @@ class Comment extends Component {
   // };
 
   validateField = (name, value) => {
-    switch (name) {
-      case "comment":
+
         if (value.length > 280) {
           console.log("over 280");
           this.setState({
@@ -104,8 +142,6 @@ class Comment extends Component {
             message: ""
           });
         }
-        break;
-    }
   };
 
   updateCount = num => {
@@ -126,11 +162,37 @@ class Comment extends Component {
     this.validateField(name, value);
   };
 
-  handleDropDownChange = event => {
+  handleDropDownChangeDepartment = event => {
     this.setState({ department_id: event.target.value });
     event.target.value !== "selectedID"
-      ? this.setState({ validDep: true })
-      : this.setState({ validDep: false });
+      ? this.setState({ validDep: true, validCC: false })
+      : this.setState({ validDep: false, validCC: false });
+  };
+
+  handleDropDownChangeEmployee = event => {
+    this.setState({ employee_id: event.target.value });
+    event.target.value !== "selectedID"
+      ? this.setState({ validUse: true, validCC: false })
+      : this.setState({ validUse: false, validCC: false });
+
+    console.log(this.state);
+  };
+
+  tabChange = tab => {
+    console.log(tab);
+
+    switch (tab) {
+      case "department":
+        {
+          this.setState({ employeeComment: "" });
+        }
+        break;
+      case "employee": {
+        this.setState({ departmentComment: "" });
+      }
+    }
+
+    this.setState({ comment: "" });
   };
 
   render() {
@@ -143,57 +205,126 @@ class Comment extends Component {
           id="coverPic"
         />
         <Title>{this.state.message}</Title>
-        <Row>
-          <Col size="sm">
-            <div className="container rounded" id="commentContainer">
-              <form>
-                <FormGroup>
-                  <Label text="Select a Department" />
-                  <Dropdown
-                    name="department"
-                    value={this.state.department}
-                    onChange={this.handleDropDownChange}
-                  >
-                    {this.state.departments.map(department => (
-                      <Option
-                        text={department.name}
-                        key={department._id}
-                        value={department._id}
-                      />
-                    ))}
-                    ;
-                  </Dropdown>
-                </FormGroup>
+        <Tabs
+          defaultActiveKey="department"
+          transition={false}
+          id="noanim-tab-example"
+        >
+          <Tab
+            eventKey="department"
+            title="Comment on a Department"
+            onClick={() => this.tabChange("department")}
+          >
+            <Row className="theUsers">
+              <div className="container rounded" id="commentContainer">
+                <form>
+                  <FormGroup>
+                    <Label text="Select a Department" />
+                    <Dropdown
+                      name="department"
+                      value={this.state.department}
+                      onChange={this.handleDropDownChangeDepartment}
+                    >
+                      {this.state.departments.map(department => (
+                        <Option
+                          text={department.name}
+                          key={department._id}
+                          value={department._id}
+                        />
+                      ))}
+                      ;
+                    </Dropdown>
+                  </FormGroup>
 
-                <FormGroup>
-                  <Label text="Write a Comment" />
-                  <TextArea
-                    name="comment"
-                    value={this.state.comment}
-                    onChange={this.handleInputChange}
-                    type="text"
-                    rows="6"
+                  <FormGroup>
+                    <Label text="Write a Comment" />
+                    <TextArea
+                      name="departmentComment"
+                      value={this.state.departmentComment}
+                      onChange={this.handleInputChange}
+                      type="text"
+                      rows="6"
+                    />
+                    <Row>
+                      <Col size="sm">
+                        <Small text={this.state.message} />
+                      </Col>
+                    </Row>
+                  </FormGroup>
+
+                  <FormBtn
+                    disabled={
+                      this.state.validCC && this.state.validDep
+                        ? ""
+                        : "disabled"
+                    }
+                    text="Submit"
+                    onClick={this.departmentComment}
+                    classes="btn-primary"
                   />
-                  <Row>
-                    <Col size="sm">
-                      <Small text={this.state.message} />
-                    </Col>
-                  </Row>
-                </FormGroup>
+                </form>
+              </div>
+            </Row>
+          </Tab>
+          <Tab
+            eventKey="employee"
+            title="Comment on a Colleague"
+            name="employeeTab"
+            onClick={() => this.tabChange("employee")}
+          >
+            <Row className="theUsers">
+              <div className="container rounded" id="commentContainer">
+                <form>
+                  <FormGroup>
+                    <Label text="Select an Employee" />
+                    <Dropdown
+                      name="employee"
+                      value={this.state.employee}
+                      onChange={this.handleDropDownChangeEmployee}
+                    >
+                      {this.state.employees.map(employee => (
+                        <Option
+                          text={`${employee.firstname} ${employee.lastname}`}
+                          key={employee._id}
+                          value={employee._id}
+                        />
+                      ))}
+                      ;
+                    </Dropdown>
+                  </FormGroup>
 
-                <FormBtn
-                  disabled={
-                    this.state.validCC && this.state.validDep ? "" : "disabled"
-                  }
-                  text="Submit"
-                  onClick={this.comment}
-                  classes="btn-primary"
-                />
-              </form>
-            </div>
-          </Col>
-        </Row>
-        {/* </Container> */}
+                  <FormGroup>
+                    <Label text="Write a Comment" />
+                    <TextArea
+                      name="employeeComment"
+                      value={this.state.employeeComment}
+                      onChange={this.handleInputChange}
+                      type="text"
+                      rows="6"
+                    />
+                    <Row>
+                      <Col size="sm">
+                        <Small text={this.state.message} />
+                      </Col>
+                    </Row>
+                  </FormGroup>
+
+                  <FormBtn
+                    disabled={
+                      (this.state.validCC && this.state.validDep) ||
+                      (this.state.validCC && this.state.validUse)
+                        ? ""
+                        : "disabled"
+                    }
+                    text="Submit"
+                    onClick={this.employeeComment}
+                    classes="btn-primary"
+                  />
+                </form>
+              </div>
+            </Row>
+          </Tab>
+        </Tabs>
       </div>
     );
   }

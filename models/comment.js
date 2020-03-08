@@ -9,7 +9,12 @@ const Comment = new Schema({
     department_id: {
         type: Schema.Types.ObjectId,
         ref: "Department",
-        required: true
+        // required: true
+    },
+    receiver_id: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        // required: true
     },
     comment: {
         type: String,

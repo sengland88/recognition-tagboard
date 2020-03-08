@@ -20,6 +20,7 @@ class Tagboard extends Component {
   getComments = () => {
     API.getComments()
       .then(res => {
+        console.log(res)
         this.setState({ comments: res.data });
       })
       .catch(err => {
@@ -58,12 +59,23 @@ class Tagboard extends Component {
 
           <Row>
             {this.state.comments.reverse().map(comment => (
+              comment.department_id ? 
               <CommentCard
                 comment={comment.comment}
                 department={comment.department_id.name}
                 submitter={`${comment.submitter_id.firstname} ${comment.submitter_id.lastname}`}
                 thedate={comment.created}
               />
+              : ""
+              || 
+              comment.receiver_id ? 
+              <CommentCard
+              comment={comment.comment}
+              department={`${comment.receiver_id.firstname} ${comment.receiver_id.lastname}`}
+              submitter={`${comment.submitter_id.firstname} ${comment.submitter_id.lastname}`}
+              thedate={comment.created}
+            />
+            : ""
             ))}
           </Row>
       </div>

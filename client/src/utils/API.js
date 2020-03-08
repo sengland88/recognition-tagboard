@@ -16,9 +16,14 @@ export default {
     console.log("image connecting");
     return axios.post("/api/imageupload", data);
   },
-  submitComment: function(data) {
+  submitCommentDepartment: function(data) {
     console.log("comment connecting");
-    return axios.post("/api/comment", data);
+    return axios.post("/api/commentdepartment", data);
+  },
+
+  submitCommentEmployee: function(data) {
+    console.log("comment connecting");
+    return axios.post("/api/commentemployee", data);
   },
   // sendEmail: function(data) {
   //   console.log("email connecting");

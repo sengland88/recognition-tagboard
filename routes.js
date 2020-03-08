@@ -58,14 +58,34 @@ router.post("/api/imageupload", isAuthenticated, function(req, res) {
   // work on this route
 });
 
-router.post("/api/comment", isAuthenticated, function(req, res) {
-  console.log("comment connected");
+router.post("/api/commentdepartment", isAuthenticated, function(req, res) {
+  console.log("comment (department) connected");
   console.log(req.user);
   console.log(req.body);
 
   let data = {
     submitter_id: req.user._id,
     department_id: req.body.department_id,
+    comment: req.body.comment
+  };
+
+  db.Comment.create(data)
+    .then(function(data) {
+      console.log(data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+});
+
+router.post("/api/commentemployee", isAuthenticated, function(req, res) {
+  console.log("comment (employee) connected");
+  console.log(req.user);
+  console.log(req.body);
+
+  let data = {
+    submitter_id: req.user._id,
+    receiver_id: req.body.employee_id,
     comment: req.body.comment
   };
 
@@ -217,6 +237,7 @@ router.get("/api/loadcomments", isAuthenticated, function(req, res) {
   db.Comment.find({})
     .populate("submitter_id")
     .populate("department_id")
+    .populate("receiver_id")
     .then(result => {
       console.log(result);
       res.json(result);
