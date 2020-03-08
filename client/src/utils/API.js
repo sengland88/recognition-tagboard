@@ -20,11 +20,10 @@ export default {
     console.log("comment connecting");
     return axios.post("/api/comment", data);
   },
-
-  // sendEmail: function(data) {
-  //   console.log("email connecting");
-  //   return axios.post("/api/email", data);
-  // },
+  sendEmail: function(data) {
+    console.log("email connecting");
+    return axios.post("/api/email", data);
+  },
 
   // Get Requests ++++++++++++++++++++++++++++++++++++
   getDepartments: function() {
