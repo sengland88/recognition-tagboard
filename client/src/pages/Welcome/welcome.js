@@ -51,7 +51,7 @@ class Welcome extends Component {
           <img src="./imgs/welcome.jpg" class="d-block w-100 img-fluid rounded" alt="Responsive image" id="coverPic"/>
         <Container>
           <Row>
-            <Col className="border-right pr-2 border-danger" size="sm-3">
+            <Col size="sm-4">
               <h4>Name</h4>
               <p>
                 {this.state.firstname} {this.state.lastname}

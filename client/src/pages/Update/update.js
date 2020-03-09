@@ -18,6 +18,7 @@ import "./update.css";
 class Update extends Component {
   state = {
     message: "Please confirm your information below.",
+    departmentselector: "Use ONLY if you have changed departments",
     image: null,
     firstname: "",
     lastname: "",
@@ -39,6 +40,7 @@ class Update extends Component {
           _id: "selectedID",
           name: this.state.departmentselector
         });
+        console.log(res)
         this.setState({ departments: res.data });
       })
       .catch(err => {

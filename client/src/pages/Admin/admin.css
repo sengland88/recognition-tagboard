@@ -1,3 +1,8 @@
 .theUsers {
     padding-top: 20px;
 }
+
+.submitButton {
+    display: inline;    
+    width: 300px;
+}

@@ -42,7 +42,7 @@ class Tagboard extends Component {
         />
           <Row>
             <Col size="sm-9">
-              <p>Here are the comments said about your fellows departments.</p>
+              <h4>Checkout what is being said about your colleagues and fellow departments!</h4>
             </Col>
             <Col size="sm" className="align-middle">
               {" "}
@@ -57,8 +57,8 @@ class Tagboard extends Component {
           </Row>
 
           <Row>
-            {this.state.comments.reverse().map(comment => (
-              comment.department_id ? 
+            {this.state.comments.reverse().map(comment => (               
+              comment.department_id ?               
               <CommentCard
                 comment={comment.comment}
                 department={comment.department_id.name}

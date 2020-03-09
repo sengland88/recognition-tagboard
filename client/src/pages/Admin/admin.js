@@ -24,11 +24,12 @@ import Table, {
 import API from "../../utils/API";
 import "./admin.css";
 import { Button } from "react-bootstrap";
-import { Tabs, Tab} from "react-bootstrap/";
+import { Tabs, Tab } from "react-bootstrap/";
 
 class Admin extends Component {
   state = {
     message: "Update Info Here",
+    departmentselector: "Use ONLY if they have changed departments",
     employee_id: "",
     departments: [],
     comments: [],
@@ -50,9 +51,10 @@ class Admin extends Component {
   getDepartments = () => {
     API.getDepartments()
       .then(res => {
-        console.log("*-*-*-*-");
-        console.log(res);
-        console.log("*-*-*-*-");
+        res.data.unshift({
+          _id: "selectedID",
+          name: this.state.departmentselector
+        });
         this.setState({ departments: res.data });
       })
       .catch(err => {
@@ -77,7 +79,7 @@ class Admin extends Component {
   };
 
   addDepartment = () => {
-    console.log(this.state.newdepartment)
+    console.log(this.state.newdepartment);
     API.addDepartment({
       name: this.state.newdepartment
     })
@@ -331,7 +333,7 @@ class Admin extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <Label text="email" />
+                    <Label text="Email" />
                     <Input
                       name="email"
                       value={this.state.email}
@@ -342,29 +344,34 @@ class Admin extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <Label text="admin" />
+                    <Label text="Administrator" />
                     <Dropdown
                       name="admin"
                       value={this.state.admin}
                       onChange={this.handleInputChange}
                     >
                       <Option text="Choose Admin Rights..."></Option>
-                      <Option value="false" text="False" />
-                      <Option value="true" text="True" />
+                      <Option value="false" text="Yes" />
+                      <Option value="true" text="No" />
                     </Dropdown>
-                    <Small text="Please note that if Admin Rights are granted to a user, they will be able to manager users and comments. The default value is set to false" />
+                    <Small text="Please note that if Admin Rights are granted to a user, they will be able to manage users and comments. The default value is set to false." />
                   </FormGroup>
 
-                  <FormBtn
-                    text="Update"
-                    onClick={this.updateUser}
-                    classes="btn-primary"
-                  />
-                  <FormBtn
-                    text="Delete"
-                    onClick={this.userDelete}
-                    classes="btn-primary"
-                  />
+                  <FormGroup>
+ 
+                      <FormBtn
+                        text="Update"
+                        onClick={this.updateUser}
+                        classes="btn-primary submitButton"
+                      />
+
+                      {/* <FormBtn
+                        text="Delete"
+                        onClick={this.userDelete}
+                        classes="btn-danger submitButton"
+                      /> */}
+
+                  </FormGroup>
                 </Col>
               </Row>
             </Tab>

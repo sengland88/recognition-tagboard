@@ -32,7 +32,7 @@ class Comment extends Component {
     validCC: false,
     validDep: false,
     validUse: false,
-    message: "Submit a Comment"
+    message: ""
   };
 
   componentDidMount() {
