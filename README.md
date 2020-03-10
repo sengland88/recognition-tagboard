@@ -33,7 +33,10 @@ If a user is designated as an administrator, he or she has the ability to manage
 
 # Looking to use this application?
 
-If you are looking to use this application, first you will need git clone onto your local machine. Be sure to NPM install, but before you NPM Start, you will need to first access the seeds file. 
+If you are looking to use this application, first you will need git clone onto your local machine. 
+
+<strong>SEEDS FILE</strong>
+Be sure to NPM install, but before you NPM Start, you will need to first access the seeds file. 
 
 To access the seeds file:
 
@@ -45,6 +48,13 @@ To access the seeds file:
 6. Run "npm start" to start us the database. 
 
 Please note that because the default value of admin is set to false, you will need to access the the database via Robo 3T and change the value of your initial user to true. 
+
+<strong>ENV Vile</strong>
+Because this application leverages passport, you will also need to create .env file. Inside this file, you will need create a secret. 
+
+PASSPORT_SECRET=YOURPASSWORDHERE
+
+This secret will be used to help keep track of sessions. Please note that without this secret, the application will NOT work. 
 
 # Future Development
 
