@@ -68,4 +68,4 @@ Feel free to email me at shelby.england@knights.ucf.edu or create an issues tick
 
 # URL
 
-Due to the nature of the application, I have decided to provide you with screen casts of the the app's functionality. (Coming soon)
+Due to the nature of the application, I have decided to provide you with screen casts of the the app's functionality. To view the demo: http://bit.ly/2vPUvOB
